@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: fdk-dainaClient
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+      config:
+        server-addr: http://localhost:8848
+        encode: UTF-8
+        file-extension: yaml
+        refresh-enabled: true
+  profiles:
+    active: develop
