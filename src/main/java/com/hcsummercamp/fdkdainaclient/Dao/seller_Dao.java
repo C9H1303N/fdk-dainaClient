@@ -1,16 +1,13 @@
 package com.hcsummercamp.fdkdainaclient.Dao;
 
-import com.hcsummercamp.fdkdainaclient.Entity.seller.seller;
+import com.hcsummercamp.fdkdainaclient.Entity.POJO.seller;
 import com.hcsummercamp.fdkdainaclient.db.tables.records.SellerRecord;
-import org.jooq.Record;
-import org.jooq.meta.derby.sys.Sys;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.hcsummercamp.fdkdainaclient.db.tables.Seller.SELLER;
@@ -27,5 +24,9 @@ public class seller_Dao extends BasicDao{
         sellerRecord.setCreated(new Timestamp(System.currentTimeMillis()));
         sellerRecord.setModified(new Timestamp(System.currentTimeMillis()));
         sellerRecord.insert();
+    }
+
+    public void deleteSeller(ULong id) throws SQLException{     //设置status为0即删除
+        db.update(SELLER).set(SELLER.STATUS,UByte.valueOf(0)).where(SELLER.ID.eq(id)).execute();
     }
 }

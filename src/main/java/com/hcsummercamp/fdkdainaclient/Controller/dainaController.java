@@ -11,8 +11,7 @@ import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
-import com.hcsummercamp.fdkdainaclient.Entity.seller.seller;
-import com.hcsummercamp.fdkdainaclient.db.tables.records.SellerRecord;
+import com.hcsummercamp.fdkdainaclient.Entity.POJO.seller;
 import org.jooq.types.ULong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,10 +60,11 @@ public class dainaController {
         try {
             a.setData(seller_dao.getSeller());
             a.setCode(200);
+            seller_dao.deleteSeller(ULong.valueOf(999));
             return a;
         } catch (Exception e){
             e.printStackTrace();
         }
-        return a; // 待写
+        return a;
     }
 }

@@ -1,4 +1,4 @@
-package com.hcsummercamp.fdkdainaclient.Entity.seller;
+package com.hcsummercamp.fdkdainaclient.Entity.POJO;
 
 import lombok.Data;
 import org.jooq.types.ULong;
