@@ -1,5 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Controller;
 
+import com.hcsummercamp.fdkdainaclient.Dao.seller_Dao;
 import com.hcsummercamp.fdkdainaclient.Entity.DownloadGoodsList.GettingGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
 import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
@@ -10,14 +11,20 @@ import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
+import com.hcsummercamp.fdkdainaclient.Entity.seller.seller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class dainaController {
+    @Autowired
+    seller_Dao seller_dao;
+
     @PostMapping("/seller/cityTree")
     public Result<ArrayList<CityOutParam>> InquirePassedCity(){     // 已通过城市列表
         return null; // 待写
@@ -44,5 +51,14 @@ public class dainaController {
     public Result<PageContentContainer<GoodsList>> InquireGoodsList(@RequestBody SystemGoodsList systemGoodsList){  //查询货品列表
         System.out.println(systemGoodsList.toString());
         return null; // 待写
+    }
+
+    @PostMapping("/test")
+    public Result test(){
+        Result<List<seller>> a = new Result<>();
+        a.setData(seller_dao.getseller());
+        a.setCode(200);
+        return a;
+       // return null; // 待写
     }
 }

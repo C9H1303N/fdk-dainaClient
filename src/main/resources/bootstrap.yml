@@ -4,9 +4,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://localhost:8848
+        server-addr: http://60.205.180.234:8848
+        namespace: hc-summer-4
       config:
-        server-addr: http://localhost:8848
+        server-addr: http://60.205.180.234:8848
         encode: UTF-8
         file-extension: yaml
         refresh-enabled: true
+        namespace: hc-summer-4
