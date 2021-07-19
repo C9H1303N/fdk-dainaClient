@@ -2,15 +2,16 @@ package com.hcsummercamp.fdkdainaclient.Entity.GettingGoods;
 
 import com.hcsummercamp.fdkdainaclient.Entity.SPU;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ProgressingSKU {       //待拿、拿中、已拿未结、代退、退中 sku
     String bizFullName;     //档口全称
     long bizId;     // 档口 id
-    int moneyAmount;
+    BigDecimal moneyAmount;
     ArrayList<SPU> spuList;
     int totalKind;      //种类
-    int totalNum;   //数量
+    BigDecimal totalNum;   //数量
 
     public String getBizFullName() {
         return bizFullName;
@@ -40,11 +41,11 @@ public class ProgressingSKU {       //待拿、拿中、已拿未结、代退、
         this.bizId = bizId;
     }
 
-    public int getMoneyAmount() {
+    public BigDecimal getMoneyAmount() {
         return moneyAmount;
     }
 
-    public void setMoneyAmount(int moneyAmount) {
+    public void setMoneyAmount(BigDecimal moneyAmount) {
         this.moneyAmount = moneyAmount;
     }
 
@@ -64,11 +65,11 @@ public class ProgressingSKU {       //待拿、拿中、已拿未结、代退、
         this.totalKind = totalKind;
     }
 
-    public int getTotalNum() {
+    public BigDecimal getTotalNum() {
         return totalNum;
     }
 
-    public void setTotalNum(int totalNum) {
+    public void setTotalNum(BigDecimal totalNum) {
         this.totalNum = totalNum;
     }
 }

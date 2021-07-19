@@ -1,17 +1,27 @@
 package com.hcsummercamp.fdkdainaclient.Entity;
 
+import java.math.BigDecimal;
+
 public class SKU {
-    int availableNum; //可退数量
+    BigDecimal availableNum; //可退数量
     long skuId;
     String skuName;
-    int toReturnNum;       //待退数量
+    BigDecimal toReturnNum;       //待退数量
 
-    public int getAvailableNum() {
+    public void setAvailableNum(BigDecimal availableNum) {
+        this.availableNum = availableNum;
+    }
+
+    public void setToReturnNum(BigDecimal toReturnNum) {
+        this.toReturnNum = toReturnNum;
+    }
+
+    public BigDecimal getAvailableNum() {
         return availableNum;
     }
 
-    public void setAvailableNum(int availableNum) {
-        this.availableNum = availableNum;
+    public BigDecimal getToReturnNum() {
+        return toReturnNum;
     }
 
     @Override
@@ -40,11 +50,4 @@ public class SKU {
         this.skuName = skuName;
     }
 
-    public int getToReturnNum() {
-        return toReturnNum;
-    }
-
-    public void setToReturnNum(int toReturnNum) {
-        this.toReturnNum = toReturnNum;
-    }
 }

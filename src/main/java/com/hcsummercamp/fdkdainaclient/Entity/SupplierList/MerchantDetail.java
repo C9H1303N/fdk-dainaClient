@@ -1,11 +1,13 @@
 package com.hcsummercamp.fdkdainaclient.Entity.SupplierList;
 
+import java.math.BigDecimal;
+
 public class MerchantDetail {  // 销售商及数量信息
     long merchantId;
     String sellerName;
     String sellerShortName;
     int totalKind;
-    int totalNum;
+    BigDecimal totalNum;
 
     public long getMerchantId() {
         return merchantId;
@@ -50,11 +52,11 @@ public class MerchantDetail {  // 销售商及数量信息
         this.totalKind = totalKind;
     }
 
-    public int getTotalNum() {
+    public BigDecimal getTotalNum() {
         return totalNum;
     }
 
-    public void setTotalNum(int totalNum) {
+    public void setTotalNum(BigDecimal totalNum) {
         this.totalNum = totalNum;
     }
 }
