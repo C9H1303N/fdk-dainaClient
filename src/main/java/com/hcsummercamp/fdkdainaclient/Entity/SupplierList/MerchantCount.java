@@ -24,6 +24,18 @@ public class MerchantCount {// 拿货销商数量统计汇总
         this.cityId = cityId;
     }
 
+    @Override
+    public String toString() {
+        return "MerchantCount{" +
+                "bizFullName='" + bizFullName + '\'' +
+                ", cityId=" + cityId +
+                ", floorId=" + floorId +
+                ", marketId=" + marketId +
+                ", spuGoodsNo='" + spuGoodsNo + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
     public long getFloorId() {
         return floorId;
     }

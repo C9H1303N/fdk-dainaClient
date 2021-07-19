@@ -1,6 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Entity.DownloadGoodsList;
 
-import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.SKU;
+import com.hcsummercamp.fdkdainaclient.Entity.SKU;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,20 @@ public class GettingGoodsList {        //下载拿、退货单
 
     public String getBizFullName() {
         return bizFullName;
+    }
+
+    @Override
+    public String toString() {
+        return "GettingGoodsList{" +
+                "bizFullName='" + bizFullName + '\'' +
+                ", cityId=" + cityId +
+                ", floorId=" + floorId +
+                ", marketId=" + marketId +
+                ", merchantId=" + merchantId +
+                ", selectAll=" + selectAll +
+                ", skuIdList=" + skuIdList +
+                ", spuGoodsNo='" + spuGoodsNo + '\'' +
+                '}';
     }
 
     public void setBizFullName(String bizFullName) {

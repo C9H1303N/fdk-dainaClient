@@ -1,5 +1,7 @@
 package com.hcsummercamp.fdkdainaclient.Entity.GettingGoods;
 
+import com.hcsummercamp.fdkdainaclient.Entity.SPU;
+
 import java.util.ArrayList;
 
 public class ProgressingSKU {       //待拿、拿中、已拿未结、代退、退中 sku
@@ -12,6 +14,18 @@ public class ProgressingSKU {       //待拿、拿中、已拿未结、代退、
 
     public String getBizFullName() {
         return bizFullName;
+    }
+
+    @Override
+    public String toString() {
+        return "ProgressingSKU{" +
+                "bizFullName='" + bizFullName + '\'' +
+                ", bizId=" + bizId +
+                ", moneyAmount=" + moneyAmount +
+                ", spuList=" + spuList +
+                ", totalKind=" + totalKind +
+                ", totalNum=" + totalNum +
+                '}';
     }
 
     public void setBizFullName(String bizFullName) {

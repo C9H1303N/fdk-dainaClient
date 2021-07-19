@@ -18,6 +18,14 @@ public class PageContentContainer<T> {
         return total;
     }
 
+    @Override
+    public String toString() {
+        return "PageContentContainer{" +
+                "list=" + list +
+                ", total=" + total +
+                '}';
+    }
+
     public void setTotal(int total) {
         this.total = total;
     }

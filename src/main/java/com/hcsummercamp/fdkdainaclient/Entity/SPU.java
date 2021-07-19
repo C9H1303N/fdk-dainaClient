@@ -1,4 +1,6 @@
-package com.hcsummercamp.fdkdainaclient.Entity.GettingGoods;
+package com.hcsummercamp.fdkdainaclient.Entity;
+
+import com.hcsummercamp.fdkdainaclient.Entity.SKU;
 
 import java.util.ArrayList;
 
@@ -11,6 +13,17 @@ public class SPU {
 
     public String getMainImgUrl() {
         return mainImgUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "SPU{" +
+                "mainImgUrl='" + mainImgUrl + '\'' +
+                ", skuList=" + skuList +
+                ", spuGoodsNo='" + spuGoodsNo + '\'' +
+                ", spuId=" + spuId +
+                ", spuName='" + spuName + '\'' +
+                '}';
     }
 
     public void setMainImgUrl(String mainImgUrl) {

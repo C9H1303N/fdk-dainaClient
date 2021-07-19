@@ -21,6 +21,19 @@ public class SystemGoodsList {      //系统货品列表
         return cityId;
     }
 
+    @Override
+    public String toString() {
+        return "SystemGoodsList{" +
+                "bizFullName='" + bizFullName + '\'' +
+                ", cityId=" + cityId +
+                ", floorId=" + floorId +
+                ", marketId=" + marketId +
+                ", pageIndex=" + pageIndex +
+                ", pageSize=" + pageSize +
+                ", spuGoodsNo='" + spuGoodsNo + '\'' +
+                '}';
+    }
+
     public void setCityId(long cityId) {
         this.cityId = cityId;
     }

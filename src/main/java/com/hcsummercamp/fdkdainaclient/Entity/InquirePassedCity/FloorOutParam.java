@@ -3,7 +3,16 @@ package com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity;
 public class FloorOutParam {
     long floorCode;
     String floorName;
-    long marketCode;
+    long marketCode;    //市场ID
+
+    @Override
+    public String toString() {
+        return "FloorOutParam{" +
+                "floorCode=" + floorCode +
+                ", floorName='" + floorName + '\'' +
+                ", marketCode=" + marketCode +
+                '}';
+    }
 
     public long getFloorCode() {
         return floorCode;

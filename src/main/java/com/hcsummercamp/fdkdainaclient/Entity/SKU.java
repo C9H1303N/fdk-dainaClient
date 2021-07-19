@@ -1,4 +1,4 @@
-package com.hcsummercamp.fdkdainaclient.Entity.GettingGoods;
+package com.hcsummercamp.fdkdainaclient.Entity;
 
 public class SKU {
     int availableNum; //可退数量
@@ -12,6 +12,16 @@ public class SKU {
 
     public void setAvailableNum(int availableNum) {
         this.availableNum = availableNum;
+    }
+
+    @Override
+    public String toString() {
+        return "SKU{" +
+                "availableNum=" + availableNum +
+                ", skuId=" + skuId +
+                ", skuName='" + skuName + '\'' +
+                ", toReturnNum=" + toReturnNum +
+                '}';
     }
 
     public long getSkuId() {

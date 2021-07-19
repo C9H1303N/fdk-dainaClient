@@ -9,7 +9,10 @@ import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
+import org.checkerframework.checker.units.qual.A;
+import org.jooq.meta.derby.sys.Sys;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,22 +26,25 @@ public class dainaController {
     }
 
     @PostMapping("/num/summary/list")
-    public ArrayList<MerchantDetail> SupplierList(@RequestParam("param")MerchantCount merchantCount){    // 销售商及数量信息
+    public ArrayList<MerchantDetail> SupplierList(@RequestBody MerchantCount merchantCount){    // 销售商及数量信息
+        System.out.println(merchantCount.toString());
         return null; // 待写
     }
 
     @PostMapping("/goods/num/common/list")
-    public PageContentContainer<ProgressingSKU> GettingGoods(@RequestParam("param")ProgressingSKUPage progressingSKUPage){      //拿货中列表
+    public PageContentContainer<ProgressingSKU> GettingGoods(@RequestBody ProgressingSKUPage progressingSKUPage){      //拿货中列表
+        System.out.println(progressingSKUPage.toString());
         return null; // 待写
     }
 
     @PostMapping("/download/fetch/todo/list")
-    public void DownloadGoodsList(@RequestParam("gettingGoodsList") GettingGoodsList gettingGoodsList){       //下载拿货单
-
+    public void DownloadGoodsList(@RequestBody GettingGoodsList gettingGoodsList){       //下载拿货单
+        System.out.println(gettingGoodsList.toString());
     }
 
     @PostMapping("/goods/find/page")
-    public PageContentContainer<GoodsList> InquireGoodsList(@RequestParam("param")SystemGoodsList systemGoodsList){  //查询货品列表
+    public PageContentContainer<GoodsList> InquireGoodsList(@RequestBody SystemGoodsList systemGoodsList){  //查询货品列表
+        System.out.println(systemGoodsList.toString());
         return null; // 待写
     }
 }

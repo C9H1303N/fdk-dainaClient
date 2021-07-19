@@ -15,6 +15,17 @@ public class MerchantDetail {  // 销售商及数量信息
         this.merchantId = merchantId;
     }
 
+    @Override
+    public String toString() {
+        return "MerchantDetail{" +
+                "merchantId=" + merchantId +
+                ", sellerName='" + sellerName + '\'' +
+                ", sellerShortName='" + sellerShortName + '\'' +
+                ", totalKind=" + totalKind +
+                ", totalNum=" + totalNum +
+                '}';
+    }
+
     public String getSellerName() {
         return sellerName;
     }

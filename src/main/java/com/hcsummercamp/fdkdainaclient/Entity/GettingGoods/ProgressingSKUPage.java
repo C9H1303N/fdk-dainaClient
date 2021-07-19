@@ -1,5 +1,7 @@
 package com.hcsummercamp.fdkdainaclient.Entity.GettingGoods;
 
+import com.hcsummercamp.fdkdainaclient.Entity.SKU;
+
 import java.util.ArrayList;
 
 public class ProgressingSKUPage {      //待拿、拿中、已拿未结、代退、退中 sku 分页
@@ -15,6 +17,24 @@ public class ProgressingSKUPage {      //待拿、拿中、已拿未结、代退
     int sort;       //排序方式：@1货号，默认不传
     String spuGoodsNo;      //货号，模糊搜索
     int status;     //状态：@1待拿 @2拿中 @3已拿未结 @11待退 @12退中
+
+    @Override
+    public String toString() {
+        return "ProgressingSKUPage{" +
+                "bizFullName='" + bizFullName + '\'' +
+                ", cityId=" + cityId +
+                ", floorId=" + floorId +
+                ", marketId=" + marketId +
+                ", merchantId=" + merchantId +
+                ", order=" + order +
+                ", pageIndex=" + pageIndex +
+                ", pageSize=" + pageSize +
+                ", skuIdList=" + skuIdList +
+                ", sort=" + sort +
+                ", spuGoodsNo='" + spuGoodsNo + '\'' +
+                ", status=" + status +
+                '}';
+    }
 
     public String getBizFullName() {
         return bizFullName;

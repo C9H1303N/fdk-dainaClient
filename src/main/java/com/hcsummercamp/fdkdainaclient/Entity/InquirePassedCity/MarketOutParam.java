@@ -5,11 +5,22 @@ import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.FloorOutParam;
 import java.util.ArrayList;
 
 public class MarketOutParam {
-    long cityCode;
-    ArrayList<FloorOutParam> floorList;
-    long marketCode;
+    long cityCode;      //城市编码
+    ArrayList<FloorOutParam> floorList;     //楼层列表
+    long marketCode;        //市场编码
     long marketId;
     String marketName;
+
+    @Override
+    public String toString() {
+        return "MarketOutParam{" +
+                "cityCode=" + cityCode +
+                ", floorList=" + floorList +
+                ", marketCode=" + marketCode +
+                ", marketId=" + marketId +
+                ", marketName='" + marketName + '\'' +
+                '}';
+    }
 
     public long getCityCode() {
         return cityCode;
