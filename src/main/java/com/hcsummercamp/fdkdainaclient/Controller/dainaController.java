@@ -12,6 +12,8 @@ import com.hcsummercamp.fdkdainaclient.Entity.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
 import com.hcsummercamp.fdkdainaclient.Entity.seller.seller;
+import com.hcsummercamp.fdkdainaclient.db.tables.records.SellerRecord;
+import org.jooq.types.ULong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,9 +58,13 @@ public class dainaController {
     @PostMapping("/test")
     public Result test(){
         Result<List<seller>> a = new Result<>();
-        a.setData(seller_dao.getseller());
-        a.setCode(200);
-        return a;
-       // return null; // 待写
+        try {
+            a.setData(seller_dao.getSeller());
+            a.setCode(200);
+            return a;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return a; // 待写
     }
 }

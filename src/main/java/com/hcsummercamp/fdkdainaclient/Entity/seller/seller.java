@@ -1,19 +1,20 @@
 package com.hcsummercamp.fdkdainaclient.Entity.seller;
 
 import lombok.Data;
+import org.jooq.types.ULong;
 
 import java.sql.Timestamp;
 
 /**
  * @author ：YZJ
  * @date ：Created in 2021/7/19 14:40
- * @description：数据库连接类
+ * @description：POJO
  * @modified By：
  * @version: 1.0$
  */
 @Data
 public class seller {
-    long id;
+    ULong id;
     String platform_code;     //销售商来源平台
     long platform_identity;     //销售商唯一id
     String name;

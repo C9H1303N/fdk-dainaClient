@@ -1,6 +1,7 @@
 package com.hcsummercamp.fdkdainaclient.Entity.seller_fetch_order;
 
 import lombok.Data;
+import org.jooq.types.ULong;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -8,22 +9,22 @@ import java.sql.Timestamp;
 /**
  * @author ：YZJ
  * @date ：Created in 2021/7/19 14:47
- * @description：数据库连接类
+ * @description：POJO
  * @modified By：
  * @version: 1.0$
  */
 @Data
 public class seller_fetch_order {
-    long id;
-    long merchant_id;
-    long city_id;
-    long market_id;
-    long floor_code;
-    long biz_id;
+    ULong id;
+    ULong merchant_id;
+    ULong city_id;
+    ULong market_id;
+    ULong floor_code;
+    ULong biz_id;
     String seller_order_id;
-    long platform_spu_id;
-    long platform_sku_id;
-    long bill_id;
+    ULong platform_spu_id;
+    ULong platform_sku_id;
+    ULong bill_id;
     String platform_sku_name;
     String seller_qr_code;
     String seller_name;
