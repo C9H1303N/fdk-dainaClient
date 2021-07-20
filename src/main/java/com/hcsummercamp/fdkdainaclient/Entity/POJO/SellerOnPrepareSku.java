@@ -33,6 +33,4 @@ public class SellerOnPrepareSku {
     String spuName;
     String mainImgUrl;
     String sellerOrderId;       //销端子单id
-    Long billId; //账单ID
-    String sellerQrCode;  //销端二维码
 }

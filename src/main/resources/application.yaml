@@ -13,3 +13,6 @@ spring:
     url: jdbc:mysql://60.205.180.234:3306/fdk_forwarder4?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: fdk_summer4
     password: lahmyyc123
+  redis:
+    host: 60.205.180.234
+    port: 6379

@@ -38,6 +38,7 @@ public class SkuService {
         platformSku.setReal_return_price(sellerOnPrepareSku.getPrice());
         platformSku.setRemarks(sellerOnPrepareSku.getRemarks());
         platformSku.setReturn_remarks("");
+        platformSku.setId(sellerOnPrepareSku.getSellerSkuId());
         return platformSku;
     }
 }

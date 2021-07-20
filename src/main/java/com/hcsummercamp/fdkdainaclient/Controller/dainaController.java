@@ -14,6 +14,7 @@ import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
+import com.hcsummercamp.fdkdainaclient.Service.AutoIncrementId;
 import com.hcsummercamp.fdkdainaclient.Service.SkuService;
 import com.hcsummercamp.fdkdainaclient.Service.SpuService;
 import org.jooq.types.ULong;
@@ -41,6 +42,8 @@ public class dainaController {
     platform_spu_Dao platform_spu_dao;
     @Autowired
     platform_sku_Dao platform_sku_dao;
+    @Autowired
+    AutoIncrementId autoIncrementId;
 
     @PostMapping("/seller/cityTree") // 已通过城市列表
     public Result<List<CityOutParam>> InquirePassedCity(){
@@ -84,7 +87,7 @@ public class dainaController {
             return; //如果该销售商不存在则返回
         }
         if(seller_fetch_order_dao.SellerFetchOrderExist(sellerOnPrepareSku.getMerchantId()
-                ,sellerOnPrepareSku.getSupplierId(),sellerOnPrepareSku.getSellerSkuId())){
+                ,sellerOnPrepareSku.getSellerOrderId())){
             return; //如果订单已存在则返回
         }
         if(!base_business_info_dao.BizExist(sellerOnPrepareSku.getSupplierId())){
@@ -97,8 +100,7 @@ public class dainaController {
 
     @PostMapping("/test")
     public Result test(){
-        System.out.println(seller_dao.SellerExist(ULong.valueOf(9999)));
-        System.out.println(seller_dao.SellerExist(ULong.valueOf(9637)));
+        System.out.println();
         Result<List<MarketOutParam>> a = new Result<>();
         return a;
     }

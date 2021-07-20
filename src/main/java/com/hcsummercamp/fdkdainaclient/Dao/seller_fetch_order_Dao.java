@@ -19,11 +19,10 @@ public class seller_fetch_order_Dao extends BasicDao{
         sellerFetchOrderRecord.insert();
     }
 
-    public boolean SellerFetchOrderExist(Long merchantId, Long BizId, Long SkuId){
+    public boolean SellerFetchOrderExist(Long merchantId, String SellerOrderId){
         List<Integer> t = db.selectCount().from(SELLER_FETCH_ORDER)
                 .where(SELLER_FETCH_ORDER.MERCHANT_ID.eq(merchantId)
-                        .and(SELLER_FETCH_ORDER.BIZ_ID.eq(BizId)
-                                .and(SELLER_FETCH_ORDER.PLATFORM_SKU_ID.eq(SkuId)))).fetchInto(Integer.class);
+                        .and(SELLER_FETCH_ORDER.SELLER_ORDER_ID.eq(SellerOrderId))).fetchInto(Integer.class);
         return t.get(0) > 0;
     }
 }

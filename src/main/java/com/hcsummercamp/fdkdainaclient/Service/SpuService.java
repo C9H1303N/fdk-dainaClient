@@ -36,6 +36,7 @@ public class SpuService {
         platformSpu.setCity_id(baseBusinessInfo.getCity_code());
         platformSpu.setMarket_id(baseBusinessInfo.getMarket_code());
         platformSpu.setFloor_code(baseBusinessInfo.getFloor_code());
+        platformSpu.setId(sellerOnPrepareSku.getSpuId());
         return platformSpu;
     }
 }
