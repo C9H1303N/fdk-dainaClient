@@ -1,7 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Entity.POJO;
 
 import lombok.Data;
-import org.jooq.types.ULong;
 
 import java.sql.Timestamp;
 
@@ -14,7 +13,7 @@ import java.sql.Timestamp;
  */
 @Data
 public class seller {
-    ULong id;
+    Long id;
     String platform_code;     //销售商来源平台
     long platform_identity;     //销售商唯一id
     String name;

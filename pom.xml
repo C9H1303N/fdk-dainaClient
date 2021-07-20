@@ -128,8 +128,8 @@
                     <jdbc>
                         <driver>com.mysql.cj.jdbc.Driver</driver>
                         <url>jdbc:mysql://60.205.180.234:3306/fdk_forwarder4?serverTimezone=Asia/Shanghai</url>
-                        <user>fdk</user>
-                        <password>fdksu123456</password>
+                        <user>fdk_summer4</user>
+                        <password>lahmyyc123</password>
                     </jdbc>
                     <generator>
                         <database>

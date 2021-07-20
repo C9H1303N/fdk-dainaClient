@@ -1,7 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Entity.POJO;
 
 import lombok.Data;
-import org.jooq.types.ULong;
 
 import java.sql.Timestamp;
 
@@ -14,14 +13,14 @@ import java.sql.Timestamp;
  */
 @Data
 public class base_business_info {
-    ULong id;
-    ULong city_code;
+    Long id;
+    Long city_code;
     String city_name;
-    ULong market_code;
+    Long market_code;
     String market_name;
-    ULong floor_code;
+    Long floor_code;
     String floor_name;
-    ULong business_code;
+    Long business_code;
     String business_name;
     String business_total_name;
     int delete_flag;

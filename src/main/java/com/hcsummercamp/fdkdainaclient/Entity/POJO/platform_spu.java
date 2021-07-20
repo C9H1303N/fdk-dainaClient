@@ -1,7 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Entity.POJO;
 
 import lombok.Data;
-import org.jooq.types.ULong;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -15,11 +14,11 @@ import java.sql.Timestamp;
  */
 @Data
 public class platform_spu {
-    ULong id;
-    ULong city_id;
-    ULong market_id;
-    ULong floor_code;
-    ULong biz_id;
+    Long id;
+    Long city_id;
+    Long market_id;
+    Long floor_code;
+    Long biz_id;
     String spu_name;
     String main_img_url;        // 图片url
     String spu_goods_no;        //  货号

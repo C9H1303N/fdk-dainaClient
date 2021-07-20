@@ -3,10 +3,11 @@ package com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.FloorOutParam;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MarketOutParam {
     long cityCode;      //城市编码
-    ArrayList<FloorOutParam> floorList;     //楼层列表
+    List<FloorOutParam> floorList;     //楼层列表
     long marketCode;        //市场编码
     long marketId;
     String marketName;
@@ -30,11 +31,11 @@ public class MarketOutParam {
         this.cityCode = cityCode;
     }
 
-    public ArrayList<FloorOutParam> getFloorList() {
+    public List<FloorOutParam> getFloorList() {
         return floorList;
     }
 
-    public void setFloorList(ArrayList<FloorOutParam> floorList) {
+    public void setFloorList(List<FloorOutParam> floorList) {
         this.floorList = floorList;
     }
 

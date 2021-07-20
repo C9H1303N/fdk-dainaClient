@@ -1,7 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Entity.POJO;
 
 import lombok.Data;
-import org.jooq.types.ULong;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -15,16 +14,16 @@ import java.sql.Timestamp;
  */
 @Data
 public class seller_fetch_order {
-    ULong id;
-    ULong merchant_id;
-    ULong city_id;
-    ULong market_id;
-    ULong floor_code;
-    ULong biz_id;
+    Long id;
+    Long merchant_id;
+    Long city_id;
+    Long market_id;
+    Long floor_code;
+    Long biz_id;
     String seller_order_id;
-    ULong platform_spu_id;
-    ULong platform_sku_id;
-    ULong bill_id;
+    Long platform_spu_id;
+    Long platform_sku_id;
+    Long bill_id;
     String platform_sku_name;
     String seller_qr_code;
     String seller_name;

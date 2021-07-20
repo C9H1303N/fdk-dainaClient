@@ -1,12 +1,12 @@
 package com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CityOutParam {
     long cityCode;      //城市编码
     long cityId;        //城市ID
     String cityName;        //城市名称
-    ArrayList<MarketOutParam> marketList;       //市场列表
+    List<MarketOutParam> marketList;       //市场列表
 
     public long getCityCode() {
         return cityCode;
@@ -42,11 +42,11 @@ public class CityOutParam {
         this.cityName = cityName;
     }
 
-    public ArrayList<MarketOutParam> getMarketList() {
+    public List<MarketOutParam> getMarketList() {
         return marketList;
     }
 
-    public void setMarketList(ArrayList<MarketOutParam> marketList) {
+    public void setMarketList(List<MarketOutParam> marketList) {
         this.marketList = marketList;
     }
 }
