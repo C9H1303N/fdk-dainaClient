@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * @version: 1.0$
  */
 @Data
-public class platform_sku {
+public class PlatformSku {
     Long id;
     Long spu_id;
     Long city_id;
@@ -22,6 +22,7 @@ public class platform_sku {
     Long biz_id;        //档口表id
     String biz_full_name;       //档口全程
     String spu_goods_no;
+    String sku_name;
     BigDecimal ref_fetch_price; // 参考拿货价
     BigDecimal real_fetch_price; //实际拿货价
     BigDecimal real_return_price; //实际退货价

@@ -1,6 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Dao;
 
-import com.hcsummercamp.fdkdainaclient.Entity.POJO.platform_sku;
+import com.hcsummercamp.fdkdainaclient.Entity.POJO.PlatformSku;
 import com.hcsummercamp.fdkdainaclient.db.tables.records.PlatformSkuRecord;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +10,9 @@ import static com.hcsummercamp.fdkdainaclient.db.tables.PlatformSku.PLATFORM_SKU
 
 @Repository
 public class platform_sku_Dao extends BasicDao{
-    public void insertPlatSku(platform_sku platform_sku){
+    public void insertPlatSku(PlatformSku PlatformSku){
         PlatformSkuRecord platformSkuRecord = db.newRecord(PLATFORM_SKU);
-        platformSkuRecord.from(platform_sku);
+        platformSkuRecord.from(PlatformSku);
         platformSkuRecord.setCreated(new Timestamp(System.currentTimeMillis()));
         platformSkuRecord.setModified(new Timestamp(System.currentTimeMillis()));
         platformSkuRecord.insert();

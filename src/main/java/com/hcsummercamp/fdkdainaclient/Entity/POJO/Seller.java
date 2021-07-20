@@ -12,10 +12,10 @@ import java.sql.Timestamp;
  * @version: 1.0$
  */
 @Data
-public class seller {
+public class Seller {
     Long id;
     String platform_code;     //销售商来源平台
-    long platform_identity;     //销售商唯一id
+    Long platform_identity;     //销售商唯一id
     String name;
     String short_name;
     String user_name;

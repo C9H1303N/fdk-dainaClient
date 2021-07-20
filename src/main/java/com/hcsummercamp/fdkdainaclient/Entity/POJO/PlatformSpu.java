@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * @version: 1.0$
  */
 @Data
-public class platform_spu {
+public class PlatformSpu {
     Long id;
     Long city_id;
     Long market_id;

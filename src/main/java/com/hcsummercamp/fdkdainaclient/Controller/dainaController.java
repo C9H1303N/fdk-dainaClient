@@ -1,25 +1,27 @@
 package com.hcsummercamp.fdkdainaclient.Controller;
 
-import com.hcsummercamp.fdkdainaclient.Dao.base_business_info_Dao;
-import com.hcsummercamp.fdkdainaclient.Dao.seller_Dao;
+import com.hcsummercamp.fdkdainaclient.Dao.*;
 import com.hcsummercamp.fdkdainaclient.Entity.DownloadGoodsList.GettingGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
 import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.SystemGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.MarketOutParam;
+import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerOnPrepareSku;
+import com.hcsummercamp.fdkdainaclient.Entity.POJO.PlatformSpu;
 import com.hcsummercamp.fdkdainaclient.Entity.PageContentContainer;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
-import com.hcsummercamp.fdkdainaclient.Entity.POJO.seller;
+import com.hcsummercamp.fdkdainaclient.Service.SkuService;
+import com.hcsummercamp.fdkdainaclient.Service.SpuService;
+import org.jooq.types.ULong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +31,22 @@ public class dainaController {
     seller_Dao seller_dao;
     @Autowired
     base_business_info_Dao base_business_info_dao;
+    @Autowired
+    seller_fetch_order_Dao seller_fetch_order_dao;
+    @Autowired
+    SpuService spuService;
+    @Autowired
+    SkuService skuService;
+    @Autowired
+    platform_spu_Dao platform_spu_dao;
+    @Autowired
+    platform_sku_Dao platform_sku_dao;
 
     @PostMapping("/seller/cityTree") // 已通过城市列表
     public Result<List<CityOutParam>> InquirePassedCity(){
         Result<List<CityOutParam>> a = new Result<>();
         try {
-            a.setData(base_business_info_dao.findCity());
+            a.setData(base_business_info_dao.findCity());       //树形查找
             a.setCode(200);
             return a;
         } catch (Exception e){
@@ -67,20 +79,27 @@ public class dainaController {
     }
 
     @PostMapping("/seller/submit")
-    public void dainaSubmit(seller seller){
+    public void dainaSubmit(@RequestBody SellerOnPrepareSku sellerOnPrepareSku){
+        if(!seller_dao.SellerExist(ULong.valueOf(sellerOnPrepareSku.getMerchantId()))){
+            return; //如果该销售商不存在则返回
+        }
+        if(seller_fetch_order_dao.SellerFetchOrderExist(sellerOnPrepareSku.getMerchantId()
+                ,sellerOnPrepareSku.getSupplierId(),sellerOnPrepareSku.getSellerSkuId())){
+            return; //如果订单已存在则返回
+        }
+        if(!base_business_info_dao.BizExist(sellerOnPrepareSku.getSupplierId())){
+            return;  //如果供货商（即档口）不存在则返回
+        }
+        platform_spu_dao.insertPlatSpu(spuService.getSpu(sellerOnPrepareSku));//获取spu
+        platform_sku_dao.insertPlatSku(skuService.getSku(sellerOnPrepareSku));//获取sku
 
     }
 
     @PostMapping("/test")
     public Result test(){
+        System.out.println(seller_dao.SellerExist(ULong.valueOf(9999)));
+        System.out.println(seller_dao.SellerExist(ULong.valueOf(9637)));
         Result<List<MarketOutParam>> a = new Result<>();
-        try {
-            a.setData(base_business_info_dao.findMarket(440100L));
-            a.setCode(200);
-            return a;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
         return a;
     }
 }

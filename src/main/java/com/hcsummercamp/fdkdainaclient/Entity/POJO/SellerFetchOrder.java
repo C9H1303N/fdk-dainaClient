@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * @version: 1.0$
  */
 @Data
-public class seller_fetch_order {
+public class SellerFetchOrder {
     Long id;
     Long merchant_id;
     Long city_id;

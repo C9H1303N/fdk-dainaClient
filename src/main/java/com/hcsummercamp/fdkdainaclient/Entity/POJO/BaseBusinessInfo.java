@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * @version: 1.0$
  */
 @Data
-public class base_business_info {
+public class BaseBusinessInfo {
     Long id;
     Long city_code;
     String city_name;
