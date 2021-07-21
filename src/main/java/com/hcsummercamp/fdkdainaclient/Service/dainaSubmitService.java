@@ -40,13 +40,16 @@ public class dainaSubmitService {
 
     public void Submit(SellerOnPrepareSku sellerOnPrepareSku){
         if(!seller_dao.SellerExist(ULong.valueOf(sellerOnPrepareSku.getMerchantId()))){
+            System.out.println("该销售商不存在");
             return; //如果该销售商不存在则返回
         }
         if(seller_fetch_order_dao.SellerFetchOrderExist(sellerOnPrepareSku.getMerchantId()
                 ,sellerOnPrepareSku.getSellerOrderId())){
+            System.out.println("订单已存在");
             return; //如果订单已存在则返回
         }
         if(!base_business_info_dao.BizExist(sellerOnPrepareSku.getSupplierId())){
+            System.out.println("供货商（即档口）不存在");
             return;  //如果供货商（即档口）不存在则返回
         }
         try {

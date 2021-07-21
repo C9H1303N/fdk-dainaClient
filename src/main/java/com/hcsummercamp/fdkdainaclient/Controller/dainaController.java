@@ -91,11 +91,13 @@ public class dainaController {
         }
     }
 
-    @PostMapping("/find/tag/list/for/printing") //小标签查询
+    @PostMapping("/find/tag/list/for/printing") //小标签查询   已完成
     public Result<List<TagInfo>> printTag(@RequestBody TagRequest tagRequest){
         Result<List<TagInfo>> res = new Result<>();
-
-        return null;
+        res.setData(seller_fetch_order_dao.getTagInfo(tagRequest));
+        res.setCode(200);
+        res.setMsg("");
+        return res;
     }
 
     @PostMapping("/modify/tag/print/status/to/printed") //小标签打印 已完成

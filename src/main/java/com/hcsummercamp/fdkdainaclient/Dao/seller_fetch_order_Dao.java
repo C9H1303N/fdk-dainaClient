@@ -2,8 +2,10 @@ package com.hcsummercamp.fdkdainaclient.Dao;
 
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerFetchOrder;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagInfo;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagRequest;
 import com.hcsummercamp.fdkdainaclient.db.tables.records.SellerFetchOrderRecord;
-import org.jooq.types.UByte;
+import org.jooq.Condition;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -12,10 +14,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import static com.hcsummercamp.fdkdainaclient.db.tables.SellerFetchOrder.SELLER_FETCH_ORDER;
-import static org.jooq.types.UByte.valueOf;
 
 @Repository
 public class seller_fetch_order_Dao extends BasicDao{
+
     public void insertSellerFetchOrder(SellerFetchOrder SellerFetchOrder) throws SQLException {
         SellerFetchOrderRecord sellerFetchOrderRecord = db.newRecord(SELLER_FETCH_ORDER);
         sellerFetchOrderRecord.from(SellerFetchOrder);
@@ -72,5 +74,34 @@ public class seller_fetch_order_Dao extends BasicDao{
             .fetchInto(BigDecimal.class).stream().reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0)));
         }
         return t;
+    }
+
+    public List<TagInfo> getTagInfo(TagRequest tagRequest){
+        Condition condition = SELLER_FETCH_ORDER.CITY_ID.eq(tagRequest.getCityId());
+        if(tagRequest.getMarketId() != null){
+            condition.and(SELLER_FETCH_ORDER.MARKET_ID.eq(tagRequest.getMarketId()));
+            if(tagRequest.getFloorId() != null){
+                condition.and(SELLER_FETCH_ORDER.FLOOR_CODE.eq(tagRequest.getFloorId()));
+            }
+        }
+        if(tagRequest.getBizFullName() != null){
+            condition.and(SELLER_FETCH_ORDER.BIZ_NAME.eq(tagRequest.getBizFullName()));
+        }
+        if(tagRequest.getMerchantId() != null){
+            condition.and(SELLER_FETCH_ORDER.MERCHANT_ID.eq(tagRequest.getMerchantId()));
+        }
+        if(tagRequest.getSpuGoodsNo() != null){
+            condition.and(SELLER_FETCH_ORDER.SPU_GOODS_NO.like(tagRequest.getSpuGoodsNo()));
+        }
+        if(tagRequest.getNumType() == 2){       //未打印数量
+            condition.and(SELLER_FETCH_ORDER.STATUS.eq((byte) 1));//未打印
+        }
+        if(!tagRequest.isSelectAll()){
+            condition.and(SELLER_FETCH_ORDER.ID.in(tagRequest.getSkuIdList()));
+        }
+        return db.select(SELLER_FETCH_ORDER.PLATFORM_BARCODE.as("barcode"),SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName"),
+                SELLER_FETCH_ORDER.ID,SELLER_FETCH_ORDER.SELLER_SHORT_NAME,
+                SELLER_FETCH_ORDER.SKU_NAME,SELLER_FETCH_ORDER.SPU_GOODS_NO)
+                .from(SELLER_FETCH_ORDER).where(condition).fetchInto(TagInfo.class);
     }
 }

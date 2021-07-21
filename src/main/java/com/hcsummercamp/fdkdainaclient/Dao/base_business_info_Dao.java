@@ -51,13 +51,13 @@ public class base_business_info_Dao extends BasicDao{
 
     public boolean BizExist(Long BizId){       //档口是否存在
         List<Integer> t = db.selectCount().from(BASE_BUSINESS_INFO)
-                .where(BASE_BUSINESS_INFO.BUSINESS_CODE.eq(BizId)).fetchInto(Integer.class);
+                .where(BASE_BUSINESS_INFO.ID.eq(BizId)).fetchInto(Integer.class);
         return t.get(0) > 0;
     }
 
     public BaseBusinessInfo getInfo(Long BizId){
         return db.select().from(BASE_BUSINESS_INFO)
-                .where(BASE_BUSINESS_INFO.BUSINESS_CODE.eq(BizId)).fetchInto(BaseBusinessInfo.class).get(0);
+                .where(BASE_BUSINESS_INFO.ID.eq(BizId)).fetchInto(BaseBusinessInfo.class).get(0);
     }
 
     public String getFullName(Long BizId){
