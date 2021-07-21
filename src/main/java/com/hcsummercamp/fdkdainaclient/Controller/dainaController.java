@@ -58,7 +58,7 @@ public class dainaController {
         return res;
     }
 
-    @PostMapping("/num/summary/list")// 销售商及数量信息
+    @PostMapping("/num/summary/list")// 销售商及数量信息  已完成
     public Result<List<MerchantDetail>> SupplierList(){
         Result<List<MerchantDetail>> res = new Result<>();
         res.setData(seller_fetch_order_dao.getMerchant());

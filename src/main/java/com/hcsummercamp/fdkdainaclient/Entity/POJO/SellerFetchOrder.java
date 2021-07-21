@@ -42,5 +42,5 @@ public class SellerFetchOrder {
     Timestamp scan_time;        //  扫码到货时间
     Timestamp created;
     Timestamp modified;
-    BigDecimal sku_num;
+    BigDecimal total_num;
 }
