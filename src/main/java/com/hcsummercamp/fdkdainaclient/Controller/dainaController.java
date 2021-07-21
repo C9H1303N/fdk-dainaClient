@@ -7,14 +7,18 @@ import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.SystemGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.MarketOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerOnPrepareSku;
-import com.hcsummercamp.fdkdainaclient.Entity.POJO.PlatformSpu;
 import com.hcsummercamp.fdkdainaclient.Entity.PageContentContainer;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.IdList;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagInfo;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagRequest;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagScanInfo;
 import com.hcsummercamp.fdkdainaclient.Service.AutoIncrementId;
+import com.hcsummercamp.fdkdainaclient.Service.FetchOrderService;
 import com.hcsummercamp.fdkdainaclient.Service.SkuService;
 import com.hcsummercamp.fdkdainaclient.Service.SpuService;
 import org.jooq.types.ULong;
@@ -23,7 +27,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -44,6 +51,8 @@ public class dainaController {
     platform_sku_Dao platform_sku_dao;
     @Autowired
     AutoIncrementId autoIncrementId;
+    @Autowired
+    FetchOrderService fetchOrderService;
 
     @PostMapping("/seller/cityTree") // 已通过城市列表
     public Result<List<CityOutParam>> InquirePassedCity(){
@@ -93,14 +102,50 @@ public class dainaController {
         if(!base_business_info_dao.BizExist(sellerOnPrepareSku.getSupplierId())){
             return;  //如果供货商（即档口）不存在则返回
         }
-        platform_spu_dao.insertPlatSpu(spuService.getSpu(sellerOnPrepareSku));//获取spu
-        platform_sku_dao.insertPlatSku(skuService.getSku(sellerOnPrepareSku));//获取sku
+        try {
+            platform_spu_dao.insertPlatSpu(spuService.getSpu(sellerOnPrepareSku));//获取并插入spu
+            platform_sku_dao.insertPlatSku(skuService.getSku(sellerOnPrepareSku));//获取并插入sku
+            DateFormat df = new SimpleDateFormat("yyMMdd");
+            Calendar calendar = Calendar.getInstance();     // N+yymmdd+自增id
+            String barcode = "N" + df.format(calendar.getTime()) +
+                    String.format("%06d", autoIncrementId.incr("daina"));//生成条形码
+            seller_fetch_order_dao.insertSellerFetchOrder(fetchOrderService.getFetchOrder(sellerOnPrepareSku, barcode));//插入订单
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    @PostMapping("/find/tag/list/for/printing") //小标签查询
+    public Result<List<TagInfo>> printTag(@RequestBody TagRequest tagRequest){
+        return null;
+    }
+
+    @PostMapping("/modify/tag/print/status/to/printed") //小标签打印
+    public Result<Object> updateTag(@RequestBody IdList idList){
+        Result<Object> res = new Result<>();
+        try {
+            seller_fetch_order_dao.printTag(idList.getIdList());
+            res.setCode(200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @PostMapping("/scan/tag/and/get/detail")        //扫描小标签
+    public Result<TagScanInfo> scanTag(@RequestBody String barcode){
+        Result<TagScanInfo> res = new Result<>();
+        return null;
     }
 
     @PostMapping("/test")
     public Result test(){
-        System.out.println();
+        DateFormat df = new SimpleDateFormat("yyMMdd");
+        Calendar calendar = Calendar.getInstance();
+        String barcode = "N" + df.format(calendar.getTime()) +
+                String.format("%06d",autoIncrementId.incr("test"));//生成条形码
+        System.out.println(barcode);
+
         Result<List<MarketOutParam>> a = new Result<>();
         return a;
     }

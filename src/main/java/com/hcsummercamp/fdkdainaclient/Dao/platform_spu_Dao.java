@@ -4,6 +4,7 @@ import com.hcsummercamp.fdkdainaclient.Entity.POJO.PlatformSpu;
 import com.hcsummercamp.fdkdainaclient.db.tables.records.PlatformSpuRecord;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static com.hcsummercamp.fdkdainaclient.db.tables.PlatformSpu.PLATFORM_SPU
 
 @Repository
 public class platform_spu_Dao extends BasicDao{
-    public void insertPlatSpu(PlatformSpu platformSpu){
+    public void insertPlatSpu(PlatformSpu platformSpu) throws SQLException {
         PlatformSpuRecord platformSpuRecord = db.newRecord(PLATFORM_SPU);
         platformSpuRecord.from(platformSpu);
         platformSpuRecord.setCreated(new Timestamp(System.currentTimeMillis()));

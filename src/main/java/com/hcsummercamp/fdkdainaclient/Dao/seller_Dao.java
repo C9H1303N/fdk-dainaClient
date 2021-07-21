@@ -35,4 +35,9 @@ public class seller_Dao extends BasicDao{
      //   System.out.println(t);
         return t.get(0) > 0;
     }
+
+    public Seller getInfo(Long sellerId){
+        return db.select().from(SELLER).where(SELLER.PLATFORM_IDENTITY.eq(ULong.valueOf(sellerId)))
+                .fetchInto(Seller.class).get(0);
+    }
 }
