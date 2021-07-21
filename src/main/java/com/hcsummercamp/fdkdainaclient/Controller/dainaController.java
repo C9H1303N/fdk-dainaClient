@@ -1,5 +1,6 @@
 package com.hcsummercamp.fdkdainaclient.Controller;
 
+import com.hcsummercamp.fdkdainaclient.Common.page.PageContentContainer;
 import com.hcsummercamp.fdkdainaclient.Dao.*;
 import com.hcsummercamp.fdkdainaclient.Entity.DownloadGoodsList.GettingGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
@@ -7,20 +8,13 @@ import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.SystemGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.MarketOutParam;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerOnPrepareSku;
-import com.hcsummercamp.fdkdainaclient.Entity.PageContentContainer;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
-import com.hcsummercamp.fdkdainaclient.Entity.Result;
+import com.hcsummercamp.fdkdainaclient.Common.Result;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
-import com.hcsummercamp.fdkdainaclient.Entity.Tag.IdList;
-import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagInfo;
-import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagRequest;
-import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagScanInfo;
-import com.hcsummercamp.fdkdainaclient.Service.AutoIncrementId;
-import com.hcsummercamp.fdkdainaclient.Service.FetchOrderService;
-import com.hcsummercamp.fdkdainaclient.Service.SkuService;
-import com.hcsummercamp.fdkdainaclient.Service.SpuService;
+import com.hcsummercamp.fdkdainaclient.Entity.Tag.*;
+import com.hcsummercamp.fdkdainaclient.Service.*;
 import org.jooq.types.ULong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,35 +36,35 @@ public class dainaController {
     @Autowired
     seller_fetch_order_Dao seller_fetch_order_dao;
     @Autowired
-    SpuService spuService;
-    @Autowired
-    SkuService skuService;
-    @Autowired
-    platform_spu_Dao platform_spu_dao;
-    @Autowired
-    platform_sku_Dao platform_sku_dao;
-    @Autowired
     AutoIncrementId autoIncrementId;
     @Autowired
     FetchOrderService fetchOrderService;
+    @Autowired
+    TagScan tagScan;
+    @Autowired
+    dainaSubmitService dainaSubmitService;
 
-    @PostMapping("/seller/cityTree") // 已通过城市列表
+    @PostMapping("/seller/cityTree") // 已通过城市列表 已完成
     public Result<List<CityOutParam>> InquirePassedCity(){
-        Result<List<CityOutParam>> a = new Result<>();
+        Result<List<CityOutParam>> res = new Result<>();
         try {
-            a.setData(base_business_info_dao.findCity());       //树形查找
-            a.setCode(200);
-            return a;
+            res.setData(base_business_info_dao.findCity());       //树形查找
+            res.setCode(200);
+            res.setMsg("");
+            return res;
         } catch (Exception e){
             e.printStackTrace();
         }
-        return a;
+        return res;
     }
 
     @PostMapping("/num/summary/list")// 销售商及数量信息
-    public Result<ArrayList<MerchantDetail>> SupplierList(@RequestBody MerchantCount merchantCount){
-        System.out.println(merchantCount.toString());
-        return null; // 待写
+    public Result<List<MerchantDetail>> SupplierList(){
+        Result<List<MerchantDetail>> res = new Result<>();
+        res.setData(seller_fetch_order_dao.getMerchant());
+        res.setCode(200);
+        res.setMsg("");
+        return res;
     }
 
     @PostMapping("/goods/num/common/list")//拿货中列表
@@ -90,52 +84,59 @@ public class dainaController {
         return null; // 待写
     }
 
-    @PostMapping("/seller/submit")
-    public void dainaSubmit(@RequestBody SellerOnPrepareSku sellerOnPrepareSku){
-        if(!seller_dao.SellerExist(ULong.valueOf(sellerOnPrepareSku.getMerchantId()))){
-            return; //如果该销售商不存在则返回
-        }
-        if(seller_fetch_order_dao.SellerFetchOrderExist(sellerOnPrepareSku.getMerchantId()
-                ,sellerOnPrepareSku.getSellerOrderId())){
-            return; //如果订单已存在则返回
-        }
-        if(!base_business_info_dao.BizExist(sellerOnPrepareSku.getSupplierId())){
-            return;  //如果供货商（即档口）不存在则返回
-        }
-        try {
-            platform_spu_dao.insertPlatSpu(spuService.getSpu(sellerOnPrepareSku));//获取并插入spu
-            platform_sku_dao.insertPlatSku(skuService.getSku(sellerOnPrepareSku));//获取并插入sku
-            DateFormat df = new SimpleDateFormat("yyMMdd");
-            Calendar calendar = Calendar.getInstance();     // N+yymmdd+自增id
-            String barcode = "N" + df.format(calendar.getTime()) +
-                    String.format("%06d", autoIncrementId.incr("daina"));//生成条形码
-            seller_fetch_order_dao.insertSellerFetchOrder(fetchOrderService.getFetchOrder(sellerOnPrepareSku, barcode));//插入订单
-        } catch (Exception e){
-            e.printStackTrace();
+    @PostMapping("/seller/submit")      //递交 已完成
+    public void dainaSubmit(@RequestBody List<SellerOnPrepareSku> sellerOnPrepareSku){
+        for(SellerOnPrepareSku seller : sellerOnPrepareSku){
+            dainaSubmitService.Submit(seller);
         }
     }
 
     @PostMapping("/find/tag/list/for/printing") //小标签查询
     public Result<List<TagInfo>> printTag(@RequestBody TagRequest tagRequest){
+        Result<List<TagInfo>> res = new Result<>();
+
         return null;
     }
 
-    @PostMapping("/modify/tag/print/status/to/printed") //小标签打印
+    @PostMapping("/modify/tag/print/status/to/printed") //小标签打印 已完成
     public Result<Object> updateTag(@RequestBody IdList idList){
         Result<Object> res = new Result<>();
         try {
             seller_fetch_order_dao.printTag(idList.getIdList());
             res.setCode(200);
+            res.setMsg("");
         } catch (Exception e){
             e.printStackTrace();
         }
         return res;
     }
 
-    @PostMapping("/scan/tag/and/get/detail")        //扫描小标签
-    public Result<TagScanInfo> scanTag(@RequestBody String barcode){
+    @PostMapping("/scan/tag/and/get/detail")        //扫描小标签  已完成
+    public Result<TagScanInfo> scanTag(@RequestBody Barcode barcode){
         Result<TagScanInfo> res = new Result<>();
-        return null;
+        if(!seller_fetch_order_dao.tagExist(barcode.getBarcode())){
+            TagScanInfo tagScanInfo = new TagScanInfo();
+            tagScanInfo.setSuccess(false);
+            tagScanInfo.setMessage("条码不存在！");
+            res.setData(tagScanInfo);
+            res.setCode(200);
+            res.setMsg("");
+        }
+        else if(seller_fetch_order_dao.scanDuplicated(barcode.getBarcode())){
+            TagScanInfo tagScanInfo = new TagScanInfo();
+            tagScanInfo.setSuccess(false);
+            tagScanInfo.setMessage("条码已被扫描！");
+            res.setData(tagScanInfo);
+            res.setCode(200);
+            res.setMsg("");
+        }
+        else {
+            res.setData(tagScan.getTagInfo(barcode.getBarcode()));
+            res.setCode(200);
+            res.setMsg("");
+            seller_fetch_order_dao.scanTag(barcode.getBarcode());
+        }
+        return res;
     }
 
     @PostMapping("/test")

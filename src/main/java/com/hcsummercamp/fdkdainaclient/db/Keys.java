@@ -20,6 +20,7 @@ import javax.annotation.Generated;
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
+import org.jooq.types.ULong;
 
 
 /**
@@ -43,6 +44,7 @@ public class Keys {
     public static final Identity<BaseBusinessInfoRecord, Long> IDENTITY_BASE_BUSINESS_INFO = Identities0.IDENTITY_BASE_BUSINESS_INFO;
     public static final Identity<PlatformSkuRecord, Long> IDENTITY_PLATFORM_SKU = Identities0.IDENTITY_PLATFORM_SKU;
     public static final Identity<PlatformSpuRecord, Long> IDENTITY_PLATFORM_SPU = Identities0.IDENTITY_PLATFORM_SPU;
+    public static final Identity<SellerRecord, ULong> IDENTITY_SELLER = Identities0.IDENTITY_SELLER;
     public static final Identity<SellerFetchOrderRecord, Long> IDENTITY_SELLER_FETCH_ORDER = Identities0.IDENTITY_SELLER_FETCH_ORDER;
 
     // -------------------------------------------------------------------------
@@ -70,6 +72,7 @@ public class Keys {
         public static Identity<BaseBusinessInfoRecord, Long> IDENTITY_BASE_BUSINESS_INFO = Internal.createIdentity(BaseBusinessInfo.BASE_BUSINESS_INFO, BaseBusinessInfo.BASE_BUSINESS_INFO.ID);
         public static Identity<PlatformSkuRecord, Long> IDENTITY_PLATFORM_SKU = Internal.createIdentity(PlatformSku.PLATFORM_SKU, PlatformSku.PLATFORM_SKU.ID);
         public static Identity<PlatformSpuRecord, Long> IDENTITY_PLATFORM_SPU = Internal.createIdentity(PlatformSpu.PLATFORM_SPU, PlatformSpu.PLATFORM_SPU.ID);
+        public static Identity<SellerRecord, ULong> IDENTITY_SELLER = Internal.createIdentity(Seller.SELLER, Seller.SELLER.ID);
         public static Identity<SellerFetchOrderRecord, Long> IDENTITY_SELLER_FETCH_ORDER = Internal.createIdentity(SellerFetchOrder.SELLER_FETCH_ORDER, SellerFetchOrder.SELLER_FETCH_ORDER.ID);
     }
 

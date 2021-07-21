@@ -54,6 +54,7 @@ public class FetchOrderService {
         sellerFetchOrder.setStatus(1);//拿货中
         sellerFetchOrder.setTag_print_flag(false);//还未打印
         sellerFetchOrder.setSeller_refund_flag(false);
+        sellerFetchOrder.setSku_num(sellerOnPrepareSku.getPrepareNum());
         return sellerFetchOrder;
     }
 }

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -44,7 +45,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Seller extends TableImpl<SellerRecord> {
 
-    private static final long serialVersionUID = -384723733;
+    private static final long serialVersionUID = 562349875;
 
     /**
      * The reference instance of <code>fdk_forwarder4.seller</code>
@@ -62,7 +63,7 @@ public class Seller extends TableImpl<SellerRecord> {
     /**
      * The column <code>fdk_forwarder4.seller.id</code>.
      */
-    public final TableField<SellerRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<SellerRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>fdk_forwarder4.seller.platform_code</code>. 销售商来源平台|@0：发得快|wendiyou|2021-06-07
@@ -122,7 +123,7 @@ public class Seller extends TableImpl<SellerRecord> {
     /**
      * The column <code>fdk_forwarder4.seller.status</code>. 状态|@0:默认值、有效；@1：已删除状态；|wendiyou|2021-06-07
      */
-    public final TableField<SellerRecord, UByte> STATUS = createField(DSL.name("status"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态|@0:默认值、有效；@1：已删除状态；|wendiyou|2021-06-07");
+    public final TableField<SellerRecord, UByte> STATUS = createField(DSL.name("status"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "状态|@0:默认值、有效；@1：已删除状态；|wendiyou|2021-06-07");
 
     /**
      * The column <code>fdk_forwarder4.seller.created</code>.
@@ -175,6 +176,11 @@ public class Seller extends TableImpl<SellerRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.SELLER_PLATFORM_CODE, Indexes.SELLER_PRIMARY, Indexes.SELLER_SHORT_NAME);
+    }
+
+    @Override
+    public Identity<SellerRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_SELLER;
     }
 
     @Override

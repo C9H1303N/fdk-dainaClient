@@ -59,4 +59,9 @@ public class base_business_info_Dao extends BasicDao{
         return db.select().from(BASE_BUSINESS_INFO)
                 .where(BASE_BUSINESS_INFO.BUSINESS_CODE.eq(BizId)).fetchInto(BaseBusinessInfo.class).get(0);
     }
+
+    public String getFullName(Long BizId){
+        return db.select(BASE_BUSINESS_INFO.BUSINESS_TOTAL_NAME).from(BASE_BUSINESS_INFO)
+                .where(BASE_BUSINESS_INFO.BUSINESS_CODE.eq(BizId)).fetchInto(String.class).get(0);
+    }
 }

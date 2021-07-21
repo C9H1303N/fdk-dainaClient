@@ -1,4 +1,4 @@
-package com.hcsummercamp.fdkdainaclient.Entity;
+package com.hcsummercamp.fdkdainaclient.Common;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
