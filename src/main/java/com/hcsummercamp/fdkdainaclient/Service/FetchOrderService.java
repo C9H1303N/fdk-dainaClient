@@ -2,9 +2,7 @@ package com.hcsummercamp.fdkdainaclient.Service;
 
 import com.hcsummercamp.fdkdainaclient.Common.page.PageContent;
 import com.hcsummercamp.fdkdainaclient.Common.page.PageContentContainer;
-import com.hcsummercamp.fdkdainaclient.Dao.base_business_info_Dao;
-import com.hcsummercamp.fdkdainaclient.Dao.seller_Dao;
-import com.hcsummercamp.fdkdainaclient.Dao.seller_fetch_order_Dao;
+import com.hcsummercamp.fdkdainaclient.Dao.*;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
@@ -44,6 +42,10 @@ public class FetchOrderService {
     AutoIncrementId autoIncrementId;
     @Autowired
     SpuService spuService;
+    @Autowired
+    platform_spu_Dao platform_spu_dao;
+    @Autowired
+    platform_sku_Dao platform_sku_dao;
 
     public void insertFetchOrder(SellerOnPrepareSku sellerOnPrepareSku){
         BaseBusinessInfo baseBusinessInfo = base_business_info_dao.getInfo(sellerOnPrepareSku.getSupplierId());
@@ -96,6 +98,8 @@ public class FetchOrderService {
             for(SPU spu : t.getSpuList()){
                 kind += spu.getSkuList().size();
                 for(SKU sku : spu.getSkuList()){
+                    sku.setAvailableNum(BigDecimal.valueOf(seller_fetch_order_dao.getSKUCount(sku.getSkuId())));
+                    sku.setToReturnNum(BigDecimal.valueOf(0));
                     num += seller_fetch_order_dao.getSKUCount(sku.getSkuId());
                     money = money.add(seller_fetch_order_dao.getMoney(sku.getSkuId()));
                 }
@@ -113,7 +117,15 @@ public class FetchOrderService {
     public PageContentContainer<GoodsList> getGoodsList(SystemGoodsList systemGoodsList){
         List<GoodsList> goodsList = seller_fetch_order_dao.getGoodsList(systemGoodsList);
         for(GoodsList t : goodsList){
-
+            t.setMainImgUrl(platform_spu_dao.getUrl(t.getSpuGoodsNo()));
+            t.setSkuList(platform_sku_dao.getSKUs(t.getSpuId()));
+            int num = 0;
+            for(SKU b : t.getSkuList()){
+                b.setToReturnNum(BigDecimal.valueOf(0));
+                num += seller_fetch_order_dao.getSKUCount(b.getSkuId());
+                b.setAvailableNum(BigDecimal.valueOf(seller_fetch_order_dao.getSKUCount(b.getSkuId())));
+            }
+            t.setSpuFetchNum(BigDecimal.valueOf(num));
         }
         PageContent<GoodsList> res = new PageContent<>();
         res.setList(goodsList);

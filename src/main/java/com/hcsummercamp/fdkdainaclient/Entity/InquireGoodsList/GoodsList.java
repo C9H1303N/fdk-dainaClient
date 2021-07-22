@@ -1,86 +1,18 @@
 package com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList;
 
 import com.hcsummercamp.fdkdainaclient.Entity.SKU;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
+import java.util.List;
+@Data
 public class GoodsList {
     String bizFullName; //档口全称
     String mainImgUrl; //图片
-    ArrayList<SKU> skuList;
+    List<SKU> skuList;
     BigDecimal spuFetchNum;//SPU 拿货数量
-    int spuGoodsNo; // 货号
+    String spuGoodsNo; // 货号
     long spuId;
     BigDecimal spuReturnNum; //SPU 退货数量
-
-    public String getBizFullName() {
-        return bizFullName;
-    }
-
-    @Override
-    public String toString() {
-        return "GoodsList{" +
-                "bizFullName='" + bizFullName + '\'' +
-                ", mainImgUrl='" + mainImgUrl + '\'' +
-                ", skuList=" + skuList +
-                ", spuFetchNum=" + spuFetchNum +
-                ", spuGoodsNo=" + spuGoodsNo +
-                ", spuId=" + spuId +
-                ", spuReturnNum=" + spuReturnNum +
-                '}';
-    }
-
-    public BigDecimal getSpuFetchNum() {
-        return spuFetchNum;
-    }
-
-    public void setSpuFetchNum(BigDecimal spuFetchNum) {
-        this.spuFetchNum = spuFetchNum;
-    }
-
-    public BigDecimal getSpuReturnNum() {
-        return spuReturnNum;
-    }
-
-    public void setSpuReturnNum(BigDecimal spuReturnNum) {
-        this.spuReturnNum = spuReturnNum;
-    }
-
-    public void setBizFullName(String bizFullName) {
-        this.bizFullName = bizFullName;
-    }
-
-    public String getMainImgUrl() {
-        return mainImgUrl;
-    }
-
-    public void setMainImgUrl(String mainImgUrl) {
-        this.mainImgUrl = mainImgUrl;
-    }
-
-    public ArrayList<SKU> getSkuList() {
-        return skuList;
-    }
-
-    public void setSkuList(ArrayList<SKU> skuList) {
-        this.skuList = skuList;
-    }
-
-    public int getSpuGoodsNo() {
-        return spuGoodsNo;
-    }
-
-    public void setSpuGoodsNo(int spuGoodsNo) {
-        this.spuGoodsNo = spuGoodsNo;
-    }
-
-    public long getSpuId() {
-        return spuId;
-    }
-
-    public void setSpuId(long spuId) {
-        this.spuId = spuId;
-    }
-
 }

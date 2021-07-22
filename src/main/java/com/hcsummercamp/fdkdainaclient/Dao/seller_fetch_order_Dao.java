@@ -169,7 +169,7 @@ public class seller_fetch_order_Dao extends BasicDao{
         if(systemGoodsList.getSpuGoodsNo() != null && !systemGoodsList.getSpuGoodsNo().equals("")){
             condition = condition.and(SELLER_FETCH_ORDER.SPU_GOODS_NO.like(systemGoodsList.getSpuGoodsNo()));
         }
-        return db.select(SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName"),SELLER_FETCH_ORDER.SPU_GOODS_NO,
+        return db.selectDistinct(SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName"),SELLER_FETCH_ORDER.SPU_GOODS_NO,
                 SELLER_FETCH_ORDER.PLATFORM_SPU_ID.as("spuId")).from(SELLER_FETCH_ORDER).where(condition)
                 .limit(systemGoodsList.getPageIndex(),systemGoodsList.getPageSize())
                 .fetchInto(GoodsList.class);

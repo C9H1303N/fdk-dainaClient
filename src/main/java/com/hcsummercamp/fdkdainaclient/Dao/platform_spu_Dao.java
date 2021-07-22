@@ -38,6 +38,12 @@ public class platform_spu_Dao extends BasicDao{
         return t.get(0);
     }
 
+    public String getUrl(String SpuGoodsNo){
+        List<String> t = db.select(PLATFORM_SPU.MAIN_IMG_URL).from(PLATFORM_SPU)
+                .where(PLATFORM_SPU.SPU_GOODS_NO.eq(SpuGoodsNo)).fetchInto(String.class);
+        return t.get(0);
+    }
+
     public List<PlatformSpu> getPlatformSpu(Long BizId){
         return db.select().from(PLATFORM_SPU).where(PLATFORM_SPU.BIZ_ID.eq(BizId)).fetchInto(PlatformSpu.class);
     }

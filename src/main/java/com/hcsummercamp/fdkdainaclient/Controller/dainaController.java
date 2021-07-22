@@ -68,7 +68,7 @@ public class dainaController {
 
     @PostMapping("/goods/find/page")//查询货品列表  已完成
     public Result<PageContentContainer<GoodsList>> InquireGoodsList(@RequestBody SystemGoodsList systemGoodsList){
-        System.out.println(systemGoodsList.toString());
+    //    System.out.println(systemGoodsList.toString());
         return Result.ok(fetchOrderService.getGoodsList(systemGoodsList));
     }
 

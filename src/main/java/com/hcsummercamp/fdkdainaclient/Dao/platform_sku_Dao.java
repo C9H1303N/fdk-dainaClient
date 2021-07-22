@@ -30,6 +30,12 @@ public class platform_sku_Dao extends BasicDao{
                 .where(PLATFORM_SKU.BIZ_ID.eq(bizId)).fetchInto(SKU.class);
     }
 
+
+    public List<SKU> getSKUs(Long spuId){
+        return db.selectDistinct(PLATFORM_SKU.ID.as("skuId"),PLATFORM_SKU.SKU_NAME).from(PLATFORM_SKU)
+                .where(PLATFORM_SKU.SPU_ID.eq(spuId)).fetchInto(SKU.class);
+    }
+
     public int getCountSKU(Long spuId){
         return db.selectCount().from(PLATFORM_SKU).where(PLATFORM_SKU.SPU_ID.eq(spuId)).fetchInto(Integer.class).get(0);
     }
