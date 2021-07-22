@@ -3,6 +3,8 @@ package com.hcsummercamp.fdkdainaclient.Dao;
 import com.hcsummercamp.fdkdainaclient.Common.page.PageContentContainer;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
+import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
+import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.SystemGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerFetchOrder;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
 import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagInfo;
@@ -151,5 +153,25 @@ public class seller_fetch_order_Dao extends BasicDao{
     public Long getSkuId(String barcode){
         return db.select(SELLER_FETCH_ORDER.PLATFORM_SKU_ID).from(SELLER_FETCH_ORDER)
                 .where(SELLER_FETCH_ORDER.PLATFORM_BARCODE.eq(barcode)).fetchInto(Long.class).get(0);
+    }
+
+    public List<GoodsList> getGoodsList(SystemGoodsList systemGoodsList){
+        Condition condition = SELLER_FETCH_ORDER.CITY_ID.eq(systemGoodsList.getCityId());
+        if(systemGoodsList.getBizFullName() != null && !systemGoodsList.getBizFullName().equals("")){
+            condition = condition.and(SELLER_FETCH_ORDER.BIZ_NAME.eq(systemGoodsList.getBizFullName()));
+        }
+        if(systemGoodsList.getFloorId() != 0){
+            condition = condition.and(SELLER_FETCH_ORDER.FLOOR_CODE.eq(systemGoodsList.getFloorId()));
+        }
+        if(systemGoodsList.getMarketId() != 0){
+            condition = condition.and(SELLER_FETCH_ORDER.MARKET_ID.eq(systemGoodsList.getMarketId()));
+        }
+        if(systemGoodsList.getSpuGoodsNo() != null && !systemGoodsList.getSpuGoodsNo().equals("")){
+            condition = condition.and(SELLER_FETCH_ORDER.SPU_GOODS_NO.like(systemGoodsList.getSpuGoodsNo()));
+        }
+        return db.select(SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName"),SELLER_FETCH_ORDER.SPU_GOODS_NO,
+                SELLER_FETCH_ORDER.PLATFORM_SPU_ID.as("spuId")).from(SELLER_FETCH_ORDER).where(condition)
+                .limit(systemGoodsList.getPageIndex(),systemGoodsList.getPageSize())
+                .fetchInto(GoodsList.class);
     }
 }

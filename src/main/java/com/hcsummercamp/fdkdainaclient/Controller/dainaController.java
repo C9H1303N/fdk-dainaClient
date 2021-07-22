@@ -66,10 +66,10 @@ public class dainaController {
         System.out.println(gettingGoodsList.toString());
     }
 
-    @PostMapping("/goods/find/page")//查询货品列表
+    @PostMapping("/goods/find/page")//查询货品列表  已完成
     public Result<PageContentContainer<GoodsList>> InquireGoodsList(@RequestBody SystemGoodsList systemGoodsList){
         System.out.println(systemGoodsList.toString());
-        return null; // 待写
+        return Result.ok(fetchOrderService.getGoodsList(systemGoodsList));
     }
 
     @PostMapping("/seller/submit")      //递交 已完成

@@ -7,6 +7,8 @@ import com.hcsummercamp.fdkdainaclient.Dao.seller_Dao;
 import com.hcsummercamp.fdkdainaclient.Dao.seller_fetch_order_Dao;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
+import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.GoodsList;
+import com.hcsummercamp.fdkdainaclient.Entity.InquireGoodsList.SystemGoodsList;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.BaseBusinessInfo;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.Seller;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerFetchOrder;
@@ -105,6 +107,17 @@ public class FetchOrderService {
         PageContent<ProgressingSKU> res = new PageContent<>();
         res.setList(progressingSKUList);
         res.setTotal(progressingSKUList.size());
+        return res;
+    }
+
+    public PageContentContainer<GoodsList> getGoodsList(SystemGoodsList systemGoodsList){
+        List<GoodsList> goodsList = seller_fetch_order_dao.getGoodsList(systemGoodsList);
+        for(GoodsList t : goodsList){
+
+        }
+        PageContent<GoodsList> res = new PageContent<>();
+        res.setList(goodsList);
+        res.setTotal(goodsList.size());
         return res;
     }
 }
