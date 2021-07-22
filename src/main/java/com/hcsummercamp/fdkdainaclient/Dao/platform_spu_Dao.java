@@ -12,12 +12,16 @@ import static com.hcsummercamp.fdkdainaclient.db.tables.PlatformSpu.PLATFORM_SPU
 
 @Repository
 public class platform_spu_Dao extends BasicDao{
-    public void insertPlatSpu(PlatformSpu platformSpu) throws SQLException {
-        PlatformSpuRecord platformSpuRecord = db.newRecord(PLATFORM_SPU);
-        platformSpuRecord.from(platformSpu);
-        platformSpuRecord.setCreated(new Timestamp(System.currentTimeMillis()));
-        platformSpuRecord.setModified(new Timestamp(System.currentTimeMillis()));
-        platformSpuRecord.insert();
+    public void insertPlatSpu(PlatformSpu platformSpu) {
+        try{
+            PlatformSpuRecord platformSpuRecord = db.newRecord(PLATFORM_SPU);
+            platformSpuRecord.from(platformSpu);
+            platformSpuRecord.setCreated(new Timestamp(System.currentTimeMillis()));
+            platformSpuRecord.setModified(new Timestamp(System.currentTimeMillis()));
+            platformSpuRecord.insert();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public boolean SpuExist(Long BizId, String SpuGoodsNo){

@@ -6,6 +6,7 @@ import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagInfo;
 import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagRequest;
 import com.hcsummercamp.fdkdainaclient.db.tables.records.SellerFetchOrderRecord;
 import org.jooq.Condition;
+import org.jooq.types.ULong;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -67,11 +68,11 @@ public class seller_fetch_order_Dao extends BasicDao{
                 SELLER_FETCH_ORDER.SELLER_SHORT_NAME)
                 .from(SELLER_FETCH_ORDER).fetchInto(MerchantDetail.class);
         for(MerchantDetail merchantDetail : t){
-            merchantDetail.setTotalKind(db.selectCount().from(SELLER_FETCH_ORDER)
+            merchantDetail.setTotalKind(db.selectDistinct(SELLER_FETCH_ORDER.PLATFORM_SKU_ID).from(SELLER_FETCH_ORDER)
+            .where(SELLER_FETCH_ORDER.MERCHANT_ID.eq(merchantDetail.getMerchantId())).fetchInto(ULong.class).size());
+            merchantDetail.setTotalNum(db.selectCount().from(SELLER_FETCH_ORDER)
                     .where(SELLER_FETCH_ORDER.MERCHANT_ID.eq(merchantDetail.getMerchantId()))
-                    .fetchInto(Integer.class).get(0));
-            merchantDetail.setTotalNum(db.select(SELLER_FETCH_ORDER.TOTAL_NUM).from(SELLER_FETCH_ORDER)
-            .fetchInto(BigDecimal.class).stream().reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0)));
+            .fetchInto(BigDecimal.class).get(0));
         }
         return t;
     }

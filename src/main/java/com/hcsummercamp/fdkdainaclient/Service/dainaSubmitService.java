@@ -6,6 +6,7 @@ import org.jooq.types.ULong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,8 +35,6 @@ public class dainaSubmitService {
     @Autowired
     SkuService skuService;
     @Autowired
-    AutoIncrementId autoIncrementId;
-    @Autowired
     FetchOrderService fetchOrderService;
 
     public void Submit(SellerOnPrepareSku sellerOnPrepareSku){
@@ -50,16 +49,13 @@ public class dainaSubmitService {
         }
         if(!base_business_info_dao.BizExist(sellerOnPrepareSku.getSupplierId())){
             System.out.println("供货商（即档口）不存在");
+            System.out.println(sellerOnPrepareSku);
             return;  //如果供货商（即档口）不存在则返回
         }
         try {
             platform_spu_dao.insertPlatSpu(spuService.getSpu(sellerOnPrepareSku));//获取并插入spu
             platform_sku_dao.insertPlatSku(skuService.getSku(sellerOnPrepareSku));//获取并插入sku
-            DateFormat df = new SimpleDateFormat("yyMMdd");
-            Calendar calendar = Calendar.getInstance();     // N+yymmdd+自增id
-            String barcode = "N" + df.format(calendar.getTime()) +
-                    String.format("%06d", autoIncrementId.incr("daina"));//生成条形码
-            seller_fetch_order_dao.insertSellerFetchOrder(fetchOrderService.getFetchOrder(sellerOnPrepareSku, barcode));//插入订单
+            fetchOrderService.insertFetchOrder(sellerOnPrepareSku);//插入订单
         } catch (Exception e){
             e.printStackTrace();
         }

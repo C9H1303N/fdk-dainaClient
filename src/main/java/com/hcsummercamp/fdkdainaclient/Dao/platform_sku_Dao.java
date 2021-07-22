@@ -11,11 +11,15 @@ import static com.hcsummercamp.fdkdainaclient.db.tables.PlatformSku.PLATFORM_SKU
 
 @Repository
 public class platform_sku_Dao extends BasicDao{
-    public void insertPlatSku(PlatformSku PlatformSku) throws SQLException {
-        PlatformSkuRecord platformSkuRecord = db.newRecord(PLATFORM_SKU);
-        platformSkuRecord.from(PlatformSku);
-        platformSkuRecord.setCreated(new Timestamp(System.currentTimeMillis()));
-        platformSkuRecord.setModified(new Timestamp(System.currentTimeMillis()));
-        platformSkuRecord.insert();
+    public void insertPlatSku(PlatformSku PlatformSku) {
+        try{
+            PlatformSkuRecord platformSkuRecord = db.newRecord(PLATFORM_SKU);
+            platformSkuRecord.from(PlatformSku);
+            platformSkuRecord.setCreated(new Timestamp(System.currentTimeMillis()));
+            platformSkuRecord.setModified(new Timestamp(System.currentTimeMillis()));
+            platformSkuRecord.insert();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -28,7 +28,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SellerFetchOrderRecord extends UpdatableRecordImpl<SellerFetchOrderRecord> {
 
-    private static final long serialVersionUID = 571207788;
+    private static final long serialVersionUID = 131106883;
 
     /**
      * Setter for <code>fdk_forwarder4.seller_fetch_order.id</code>. id|郑保乐|2021-06-08
@@ -422,20 +422,6 @@ public class SellerFetchOrderRecord extends UpdatableRecordImpl<SellerFetchOrder
         return (Timestamp) get(27);
     }
 
-    /**
-     * Setter for <code>fdk_forwarder4.seller_fetch_order.total_num</code>.
-     */
-    public void setTotalNum(BigDecimal value) {
-        set(28, value);
-    }
-
-    /**
-     * Getter for <code>fdk_forwarder4.seller_fetch_order.total_num</code>.
-     */
-    public BigDecimal getTotalNum() {
-        return (BigDecimal) get(28);
-    }
-
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -459,7 +445,7 @@ public class SellerFetchOrderRecord extends UpdatableRecordImpl<SellerFetchOrder
     /**
      * Create a detached, initialised SellerFetchOrderRecord
      */
-    public SellerFetchOrderRecord(Long id, Long merchantId, Long cityId, Long marketId, Long floorCode, Long bizId, String sellerOrderId, Long platformSpuId, Long platformSkuId, Long billId, String platformSkuName, String sellerQrCode, String sellerName, String sellerShortName, String platformBarcode, String cityName, String marketName, String bizName, String spuGoodsNo, String skuName, BigDecimal refFetchPrice, BigDecimal realFetchPrice, Byte status, Byte tagPrintFlag, Byte sellerRefundFlag, Timestamp scanTime, Timestamp created, Timestamp modified, BigDecimal totalNum) {
+    public SellerFetchOrderRecord(Long id, Long merchantId, Long cityId, Long marketId, Long floorCode, Long bizId, String sellerOrderId, Long platformSpuId, Long platformSkuId, Long billId, String platformSkuName, String sellerQrCode, String sellerName, String sellerShortName, String platformBarcode, String cityName, String marketName, String bizName, String spuGoodsNo, String skuName, BigDecimal refFetchPrice, BigDecimal realFetchPrice, Byte status, Byte tagPrintFlag, Byte sellerRefundFlag, Timestamp scanTime, Timestamp created, Timestamp modified) {
         super(SellerFetchOrder.SELLER_FETCH_ORDER);
 
         set(0, id);
@@ -490,6 +476,5 @@ public class SellerFetchOrderRecord extends UpdatableRecordImpl<SellerFetchOrder
         set(25, scanTime);
         set(26, created);
         set(27, modified);
-        set(28, totalNum);
     }
 }

@@ -43,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SellerFetchOrder extends TableImpl<SellerFetchOrderRecord> {
 
-    private static final long serialVersionUID = -880687425;
+    private static final long serialVersionUID = -1880054406;
 
     /**
      * The reference instance of <code>fdk_forwarder4.seller_fetch_order</code>
@@ -197,11 +197,6 @@ public class SellerFetchOrder extends TableImpl<SellerFetchOrderRecord> {
      * The column <code>fdk_forwarder4.seller_fetch_order.modified</code>.
      */
     public final TableField<SellerFetchOrderRecord, Timestamp> MODIFIED = createField(DSL.name("modified"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
-
-    /**
-     * The column <code>fdk_forwarder4.seller_fetch_order.total_num</code>.
-     */
-    public final TableField<SellerFetchOrderRecord, BigDecimal> TOTAL_NUM = createField(DSL.name("total_num"), org.jooq.impl.SQLDataType.DECIMAL(10, 2).nullable(false), this, "");
 
     /**
      * Create a <code>fdk_forwarder4.seller_fetch_order</code> table reference
