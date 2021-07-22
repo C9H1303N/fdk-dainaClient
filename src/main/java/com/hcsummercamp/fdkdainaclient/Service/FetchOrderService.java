@@ -56,7 +56,7 @@ public class FetchOrderService {
             String barcode = "N" + df.format(calendar.getTime()) +
                     String.format("%06d", autoIncrementId.incr("daina"));//生成条形码
             SellerFetchOrder sellerFetchOrder = new SellerFetchOrder();
-            sellerFetchOrder.setBiz_id(sellerOnPrepareSku.getSupplierId());
+            sellerFetchOrder.setBiz_id(baseBusinessInfo.getBusiness_code());
             sellerFetchOrder.setMerchant_id(sellerOnPrepareSku.getMerchantId());
             sellerFetchOrder.setCity_id(baseBusinessInfo.getCity_code());
             sellerFetchOrder.setMarket_id(baseBusinessInfo.getMarket_code());
