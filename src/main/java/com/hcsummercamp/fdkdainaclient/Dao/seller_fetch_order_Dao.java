@@ -82,16 +82,16 @@ public class seller_fetch_order_Dao extends BasicDao{
 
     public List<TagInfo> getTagInfo(TagRequest tagRequest){
         Condition condition = SELLER_FETCH_ORDER.CITY_ID.eq(tagRequest.getCityId());
-        if(tagRequest.getMarketId() != null){
+        if(tagRequest.getMarketId() != null && tagRequest.getMarketId()!=0){
             condition = condition.and(SELLER_FETCH_ORDER.MARKET_ID.eq(tagRequest.getMarketId()));
-            if(tagRequest.getFloorId() != null){
+            if(tagRequest.getFloorId() != null && tagRequest.getFloorId()!=0){
                 condition = condition.and(SELLER_FETCH_ORDER.FLOOR_CODE.eq(tagRequest.getFloorId()));
             }
         }
-        if(tagRequest.getBizFullName() != null){
+        if(tagRequest.getBizFullName() != null && !tagRequest.getBizFullName().equals("")){
             condition = condition.and(SELLER_FETCH_ORDER.BIZ_NAME.eq(tagRequest.getBizFullName()));
         }
-        if(tagRequest.getMerchantId() != null){
+        if(tagRequest.getMerchantId() != null && tagRequest.getMerchantId()!=0){
             condition = condition.and(SELLER_FETCH_ORDER.MERCHANT_ID.eq(tagRequest.getMerchantId()));
         }
         if(tagRequest.getSpuGoodsNo() != null && !tagRequest.getSpuGoodsNo().equals("")){
@@ -146,5 +146,10 @@ public class seller_fetch_order_Dao extends BasicDao{
         List<BigDecimal> res = db.select(SELLER_FETCH_ORDER.REF_FETCH_PRICE).from(SELLER_FETCH_ORDER)
                 .where(SELLER_FETCH_ORDER.PLATFORM_SKU_ID.eq(skuId)).fetchInto(BigDecimal.class);
         return res.stream().reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0));
+    }
+
+    public Long getSkuId(String barcode){
+        return db.select(SELLER_FETCH_ORDER.PLATFORM_SKU_ID).from(SELLER_FETCH_ORDER)
+                .where(SELLER_FETCH_ORDER.PLATFORM_BARCODE.eq(barcode)).fetchInto(Long.class).get(0);
     }
 }

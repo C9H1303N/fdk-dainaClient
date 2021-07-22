@@ -11,19 +11,18 @@ import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerOnPrepareSku;
 import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.InquirePassedCity.CityOutParam;
 import com.hcsummercamp.fdkdainaclient.Common.Result;
-import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantCount;
+import com.hcsummercamp.fdkdainaclient.Entity.POJO.donePrepare;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
 import com.hcsummercamp.fdkdainaclient.Entity.Tag.*;
 import com.hcsummercamp.fdkdainaclient.Service.*;
-import org.jooq.types.ULong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -43,6 +42,8 @@ public class dainaController {
     TagScan tagScan;
     @Autowired
     dainaSubmitService dainaSubmitService;
+    @Autowired
+    feignClient feignClient;
 
     @PostMapping("/seller/cityTree") // 已通过城市列表 已完成
     public Result<List<CityOutParam>> InquirePassedCity(){
@@ -56,7 +57,7 @@ public class dainaController {
 
     @PostMapping("/goods/num/common/list")//拿货中列表   已完成
     public Result<PageContentContainer<ProgressingSKU>> GettingGoods(@RequestBody ProgressingSKUPage progressingSKUPage){
-        System.out.println(progressingSKUPage);
+      //  System.out.println(progressingSKUPage);
         return Result.ok(fetchOrderService.gettingGoodsList(progressingSKUPage));
     }
 
@@ -109,6 +110,10 @@ public class dainaController {
         }
         else {
             seller_fetch_order_dao.scanTag(barcode.getBarcode());
+            donePrepare donePrepare = new donePrepare();
+            donePrepare.setSkuId(seller_fetch_order_dao.getSkuId(barcode.getBarcode()));
+            donePrepare.setDonePrepareNum(BigDecimal.ONE);
+            feignClient.donePrepare(donePrepare);
             return Result.ok(tagScan.getTagInfo(barcode.getBarcode()));
         }
     }
