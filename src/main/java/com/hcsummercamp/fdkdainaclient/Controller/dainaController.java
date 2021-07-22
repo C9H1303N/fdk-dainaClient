@@ -46,31 +46,18 @@ public class dainaController {
 
     @PostMapping("/seller/cityTree") // 已通过城市列表 已完成
     public Result<List<CityOutParam>> InquirePassedCity(){
-        Result<List<CityOutParam>> res = new Result<>();
-        try {
-            res.setData(base_business_info_dao.findCity());       //树形查找
-            res.setCode(200);
-            res.setMsg("");
-            return res;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return res;
+        return Result.ok(base_business_info_dao.findCity());
     }
 
     @PostMapping("/num/summary/list")// 销售商及数量信息  已完成
     public Result<List<MerchantDetail>> SupplierList(){
-        Result<List<MerchantDetail>> res = new Result<>();
-        res.setData(seller_fetch_order_dao.getMerchant());
-        res.setCode(200);
-        res.setMsg("");
-        return res;
+        return Result.ok(seller_fetch_order_dao.getMerchant());
     }
 
-    @PostMapping("/goods/num/common/list")//拿货中列表
+    @PostMapping("/goods/num/common/list")//拿货中列表   已完成
     public Result<PageContentContainer<ProgressingSKU>> GettingGoods(@RequestBody ProgressingSKUPage progressingSKUPage){
-        System.out.println(progressingSKUPage.toString());
-        return null; // 待写
+        System.out.println(progressingSKUPage);
+        return Result.ok(fetchOrderService.gettingGoodsList(progressingSKUPage));
     }
 
     @PostMapping("/download/fetch/todo/list")  //下载拿货单
@@ -93,52 +80,37 @@ public class dainaController {
 
     @PostMapping("/find/tag/list/for/printing") //小标签查询   已完成
     public Result<List<TagInfo>> printTag(@RequestBody TagRequest tagRequest){
-        Result<List<TagInfo>> res = new Result<>();
-        res.setData(seller_fetch_order_dao.getTagInfo(tagRequest));
-        res.setCode(200);
-        res.setMsg("");
-        return res;
+        return Result.ok(seller_fetch_order_dao.getTagInfo(tagRequest));
     }
 
     @PostMapping("/modify/tag/print/status/to/printed") //小标签打印 已完成
     public Result<Object> updateTag(@RequestBody IdList idList){
-        Result<Object> res = new Result<>();
         try {
             seller_fetch_order_dao.printTag(idList.getIdList());
-            res.setCode(200);
-            res.setMsg("");
         } catch (Exception e){
             e.printStackTrace();
         }
-        return res;
+        return Result.ok();
     }
 
     @PostMapping("/scan/tag/and/get/detail")        //扫描小标签  已完成
     public Result<TagScanInfo> scanTag(@RequestBody Barcode barcode){
-        Result<TagScanInfo> res = new Result<>();
         if(!seller_fetch_order_dao.tagExist(barcode.getBarcode())){
             TagScanInfo tagScanInfo = new TagScanInfo();
             tagScanInfo.setSuccess(false);
             tagScanInfo.setMessage("条码不存在！");
-            res.setData(tagScanInfo);
-            res.setCode(200);
-            res.setMsg("");
+            return Result.ok(tagScanInfo);
         }
         else if(seller_fetch_order_dao.scanDuplicated(barcode.getBarcode())){
             TagScanInfo tagScanInfo = new TagScanInfo();
             tagScanInfo.setSuccess(false);
             tagScanInfo.setMessage("条码已被扫描！");
-            res.setData(tagScanInfo);
-            res.setCode(200);
-            res.setMsg("");
+            return Result.ok(tagScanInfo);
         }
         else {
-            res.setData(tagScan.getTagInfo(barcode.getBarcode()));
-            res.setCode(200);
-            res.setMsg("");
             seller_fetch_order_dao.scanTag(barcode.getBarcode());
+            return Result.ok(tagScan.getTagInfo(barcode.getBarcode()));
         }
-        return res;
     }
 
     @PostMapping("/test")

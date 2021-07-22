@@ -5,10 +5,13 @@ import com.hcsummercamp.fdkdainaclient.Dao.platform_spu_Dao;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerOnPrepareSku;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.BaseBusinessInfo;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.PlatformSpu;
+import com.hcsummercamp.fdkdainaclient.Entity.SPU;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ：YZJ
@@ -23,6 +26,8 @@ public class SpuService {
     platform_spu_Dao platform_spu_dao;
     @Autowired
     base_business_info_Dao base_business_info_dao;
+    @Autowired
+    SkuService skuService;
 
     public PlatformSpu getSpu(SellerOnPrepareSku sellerOnPrepareSku){
         PlatformSpu platformSpu = new PlatformSpu();
@@ -38,5 +43,21 @@ public class SpuService {
         platformSpu.setFloor_code(baseBusinessInfo.getFloor_code());
         platformSpu.setId(sellerOnPrepareSku.getSpuId());
         return platformSpu;
+    }
+
+    public List<SPU> getSPU(Long bizId){
+        List<PlatformSpu> platformSpu = platform_spu_dao.getPlatformSpu(bizId);
+        List<SPU> spuList = new ArrayList<>();
+        for(PlatformSpu t : platformSpu){
+            SPU spu = new SPU();
+            spu.setSpuId(t.getId());
+            spu.setSpuGoodsNo(t.getSpu_goods_no());
+            spu.setMainImgUrl(t.getMain_img_url());
+            spu.setSpuName(t.getSpu_name());
+            spu.setSkuList(skuService.getSKU(bizId));
+            spuList.add(spu);
+        }
+     //   System.out.println(spuList);
+        return spuList;
     }
 }

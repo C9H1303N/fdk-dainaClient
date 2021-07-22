@@ -1,5 +1,8 @@
 package com.hcsummercamp.fdkdainaclient.Dao;
 
+import com.hcsummercamp.fdkdainaclient.Common.page.PageContentContainer;
+import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
+import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerFetchOrder;
 import com.hcsummercamp.fdkdainaclient.Entity.SupplierList.MerchantDetail;
 import com.hcsummercamp.fdkdainaclient.Entity.Tag.TagInfo;
@@ -80,29 +83,68 @@ public class seller_fetch_order_Dao extends BasicDao{
     public List<TagInfo> getTagInfo(TagRequest tagRequest){
         Condition condition = SELLER_FETCH_ORDER.CITY_ID.eq(tagRequest.getCityId());
         if(tagRequest.getMarketId() != null){
-            condition.and(SELLER_FETCH_ORDER.MARKET_ID.eq(tagRequest.getMarketId()));
+            condition = condition.and(SELLER_FETCH_ORDER.MARKET_ID.eq(tagRequest.getMarketId()));
             if(tagRequest.getFloorId() != null){
-                condition.and(SELLER_FETCH_ORDER.FLOOR_CODE.eq(tagRequest.getFloorId()));
+                condition = condition.and(SELLER_FETCH_ORDER.FLOOR_CODE.eq(tagRequest.getFloorId()));
             }
         }
         if(tagRequest.getBizFullName() != null){
-            condition.and(SELLER_FETCH_ORDER.BIZ_NAME.eq(tagRequest.getBizFullName()));
+            condition = condition.and(SELLER_FETCH_ORDER.BIZ_NAME.eq(tagRequest.getBizFullName()));
         }
         if(tagRequest.getMerchantId() != null){
-            condition.and(SELLER_FETCH_ORDER.MERCHANT_ID.eq(tagRequest.getMerchantId()));
+            condition = condition.and(SELLER_FETCH_ORDER.MERCHANT_ID.eq(tagRequest.getMerchantId()));
         }
-        if(tagRequest.getSpuGoodsNo() != null){
-            condition.and(SELLER_FETCH_ORDER.SPU_GOODS_NO.like(tagRequest.getSpuGoodsNo()));
+        if(tagRequest.getSpuGoodsNo() != null && !tagRequest.getSpuGoodsNo().equals("")){
+            condition = condition.and(SELLER_FETCH_ORDER.SPU_GOODS_NO.like(tagRequest.getSpuGoodsNo()));
         }
         if(tagRequest.getNumType() == 2){       //未打印数量
-            condition.and(SELLER_FETCH_ORDER.STATUS.eq((byte) 1));//未打印
+            condition = condition.and(SELLER_FETCH_ORDER.STATUS.eq((byte) 1));//未打印
         }
         if(!tagRequest.isSelectAll()){
-            condition.and(SELLER_FETCH_ORDER.ID.in(tagRequest.getSkuIdList()));
+            condition = condition.and(SELLER_FETCH_ORDER.ID.in(tagRequest.getSkuIdList()));
         }
         return db.select(SELLER_FETCH_ORDER.PLATFORM_BARCODE.as("barcode"),SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName"),
                 SELLER_FETCH_ORDER.ID,SELLER_FETCH_ORDER.SELLER_SHORT_NAME,
                 SELLER_FETCH_ORDER.SKU_NAME,SELLER_FETCH_ORDER.SPU_GOODS_NO)
                 .from(SELLER_FETCH_ORDER).where(condition).fetchInto(TagInfo.class);
+    }
+
+    public List<ProgressingSKU> getProgressingSKU(ProgressingSKUPage progressingSKUPage){
+        Condition condition = SELLER_FETCH_ORDER.CITY_ID.eq(progressingSKUPage.getCityId());
+        condition = condition.and(SELLER_FETCH_ORDER.STATUS.notEqual((byte)3));
+        if(progressingSKUPage.getBizFullName() != null && !progressingSKUPage.getBizFullName().equals("")){
+            condition = condition.and(SELLER_FETCH_ORDER.BIZ_NAME.eq(progressingSKUPage.getBizFullName()));
+        }
+        if(progressingSKUPage.getFloorId() != 0){
+            condition = condition.and(SELLER_FETCH_ORDER.FLOOR_CODE.eq(progressingSKUPage.getFloorId()));
+        }
+        if(progressingSKUPage.getMarketId() != 0){
+            condition = condition.and(SELLER_FETCH_ORDER.MARKET_ID.eq(progressingSKUPage.getMarketId()));
+        }
+        if(progressingSKUPage.getMerchantId() != 0){
+            condition = condition.and(SELLER_FETCH_ORDER.MERCHANT_ID.eq(progressingSKUPage.getMerchantId()));
+        }
+        if(progressingSKUPage.getSkuIdList() != null){
+            condition = condition.and(SELLER_FETCH_ORDER.PLATFORM_SKU_ID.in(progressingSKUPage.getSkuIdList()));
+        }
+        if(progressingSKUPage.getSpuGoodsNo() != null && !progressingSKUPage.getSpuGoodsNo().equals("")){
+            condition = condition.and(SELLER_FETCH_ORDER.SPU_GOODS_NO.like(progressingSKUPage.getSpuGoodsNo()));
+        }
+      //  System.out.println(condition);
+        return db.selectDistinct(SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName")
+                ,SELLER_FETCH_ORDER.BIZ_ID).from(SELLER_FETCH_ORDER).where(condition)
+                .limit(progressingSKUPage.getPageIndex(),progressingSKUPage.getPageSize())
+                .fetchInto(ProgressingSKU.class);
+    }
+
+    public int getSKUCount(Long skuId){
+        return db.selectCount().from(SELLER_FETCH_ORDER).where(SELLER_FETCH_ORDER.PLATFORM_SKU_ID.eq(skuId))
+                .fetchInto(Integer.class).get(0);
+    }
+
+    public BigDecimal getMoney(Long skuId){
+        List<BigDecimal> res = db.select(SELLER_FETCH_ORDER.REF_FETCH_PRICE).from(SELLER_FETCH_ORDER)
+                .where(SELLER_FETCH_ORDER.PLATFORM_SKU_ID.eq(skuId)).fetchInto(BigDecimal.class);
+        return res.stream().reduce(BigDecimal::add).orElse(BigDecimal.valueOf(0));
     }
 }

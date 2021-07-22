@@ -1,19 +1,27 @@
 package com.hcsummercamp.fdkdainaclient.Service;
 
+import com.hcsummercamp.fdkdainaclient.Common.page.PageContent;
+import com.hcsummercamp.fdkdainaclient.Common.page.PageContentContainer;
 import com.hcsummercamp.fdkdainaclient.Dao.base_business_info_Dao;
 import com.hcsummercamp.fdkdainaclient.Dao.seller_Dao;
 import com.hcsummercamp.fdkdainaclient.Dao.seller_fetch_order_Dao;
+import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKU;
+import com.hcsummercamp.fdkdainaclient.Entity.GettingGoods.ProgressingSKUPage;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.BaseBusinessInfo;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.Seller;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerFetchOrder;
 import com.hcsummercamp.fdkdainaclient.Entity.POJO.SellerOnPrepareSku;
+import com.hcsummercamp.fdkdainaclient.Entity.SKU;
+import com.hcsummercamp.fdkdainaclient.Entity.SPU;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author ：YZJ
@@ -32,6 +40,8 @@ public class FetchOrderService {
     seller_Dao seller_dao;
     @Autowired
     AutoIncrementId autoIncrementId;
+    @Autowired
+    SpuService spuService;
 
     public void insertFetchOrder(SellerOnPrepareSku sellerOnPrepareSku){
         BaseBusinessInfo baseBusinessInfo = base_business_info_dao.getInfo(sellerOnPrepareSku.getSupplierId());
@@ -72,5 +82,29 @@ public class FetchOrderService {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    public PageContentContainer<ProgressingSKU> gettingGoodsList(ProgressingSKUPage progressingSKUPage){//拿货中列表
+        List<ProgressingSKU> progressingSKUList = seller_fetch_order_dao.getProgressingSKU(progressingSKUPage);
+        for(ProgressingSKU t : progressingSKUList){
+            t.setSpuList(spuService.getSPU(t.getBizId()));
+            int num = 0;
+            int kind = 0;
+            BigDecimal money = new BigDecimal(0);
+            for(SPU spu : t.getSpuList()){
+                kind += spu.getSkuList().size();
+                for(SKU sku : spu.getSkuList()){
+                    num += seller_fetch_order_dao.getSKUCount(sku.getSkuId());
+                    money = money.add(seller_fetch_order_dao.getMoney(sku.getSkuId()));
+                }
+            }
+            t.setTotalKind(kind);
+            t.setTotalNum(BigDecimal.valueOf(num));
+            t.setMoneyAmount(money);
+        }
+        PageContent<ProgressingSKU> res = new PageContent<>();
+        res.setList(progressingSKUList);
+        res.setTotal(progressingSKUList.size());
+        return res;
     }
 }
