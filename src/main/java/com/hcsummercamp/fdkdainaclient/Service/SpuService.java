@@ -31,13 +31,13 @@ public class SpuService {
 
     public PlatformSpu getSpu(SellerOnPrepareSku sellerOnPrepareSku){
         PlatformSpu platformSpu = new PlatformSpu();
-        platformSpu.setBiz_id(sellerOnPrepareSku.getSupplierId());     //档口编码
         platformSpu.setSpu_name(sellerOnPrepareSku.getSpuName());      //spu名称
         platformSpu.setMain_img_url(sellerOnPrepareSku.getMainImgUrl());   //图片url
         platformSpu.setSpu_goods_no(sellerOnPrepareSku.getSpuGoodsNo());
         platformSpu.setTotal_fetch(BigDecimal.valueOf(0));
         platformSpu.setTotal_return(BigDecimal.valueOf(0));
         BaseBusinessInfo baseBusinessInfo = base_business_info_dao.getInfo(sellerOnPrepareSku.getSupplierId());
+        platformSpu.setBiz_id(baseBusinessInfo.getBusiness_code());     //档口编码
         platformSpu.setCity_id(baseBusinessInfo.getCity_code());
         platformSpu.setMarket_id(baseBusinessInfo.getMarket_code());
         platformSpu.setFloor_code(baseBusinessInfo.getFloor_code());

@@ -135,7 +135,7 @@ public class seller_fetch_order_Dao extends BasicDao{
       //  System.out.println(condition);
         return db.selectDistinct(SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName")
                 ,SELLER_FETCH_ORDER.BIZ_ID).from(SELLER_FETCH_ORDER).where(condition)
-                .limit(progressingSKUPage.getPageIndex(),progressingSKUPage.getPageSize())
+                .limit(progressingSKUPage.getPageIndex()-1,progressingSKUPage.getPageSize())
                 .fetchInto(ProgressingSKU.class);
     }
 
@@ -171,7 +171,7 @@ public class seller_fetch_order_Dao extends BasicDao{
         }
         return db.selectDistinct(SELLER_FETCH_ORDER.BIZ_NAME.as("bizFullName"),SELLER_FETCH_ORDER.SPU_GOODS_NO,
                 SELLER_FETCH_ORDER.PLATFORM_SPU_ID.as("spuId")).from(SELLER_FETCH_ORDER).where(condition)
-                .limit(systemGoodsList.getPageIndex(),systemGoodsList.getPageSize())
+                .limit(systemGoodsList.getPageIndex()-1,systemGoodsList.getPageSize())
                 .fetchInto(GoodsList.class);
     }
 }

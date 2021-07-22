@@ -34,7 +34,7 @@ public class SkuService {
         PlatformSku platformSku = new PlatformSku();
         BaseBusinessInfo baseBusinessInfo = base_business_info_dao.getInfo(sellerOnPrepareSku.getSupplierId());
         platformSku.setSpu_id(sellerOnPrepareSku.getSpuId());
-        platformSku.setBiz_id(sellerOnPrepareSku.getSupplierId());
+        platformSku.setBiz_id(baseBusinessInfo.getBusiness_code());
         platformSku.setCity_id(baseBusinessInfo.getCity_code());
         platformSku.setMarket_id(baseBusinessInfo.getMarket_code());
         platformSku.setFloor_code(baseBusinessInfo.getFloor_code());

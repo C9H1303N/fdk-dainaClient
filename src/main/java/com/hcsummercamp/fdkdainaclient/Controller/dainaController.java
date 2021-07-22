@@ -75,7 +75,7 @@ public class dainaController {
     @PostMapping("/seller/submit")      //递交 已完成
     public void dainaSubmit(@RequestBody List<SellerOnPrepareSku> sellerOnPrepareSku){
         for(SellerOnPrepareSku seller : sellerOnPrepareSku){
-            dainaSubmitService.Submit(seller);
+           dainaSubmitService.Submit(seller);
         }
     }
 
